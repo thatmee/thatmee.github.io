@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>My New Post</title>
+      <link href="2021/04/24/My-New-Post/"/>
+      <url>2021/04/24/My-New-Post/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Title-1"><a href="#Title-1" class="headerlink" title="Title 1"></a>Title 1</h1><h2 id="Title-2"><a href="#Title-2" class="headerlink" title="Title 2"></a>Title 2</h2><h3 id="Title-3"><a href="#Title-3" class="headerlink" title="Title 3"></a>Title 3</h3><p>正文，江湖救急军军军</p><p><img src="C:\Users\27512\Pictures\桌面壁纸\N4565ps06d_35tp_Kaltseis2019_1024.jpg"></p><p>最后，blha</p><p>over</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="2021/04/24/hello-world/"/>
       <url>2021/04/24/hello-world/</url>
