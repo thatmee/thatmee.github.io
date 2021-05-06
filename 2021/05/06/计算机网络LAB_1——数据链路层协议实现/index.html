@@ -30,23 +30,23 @@
 <meta property="og:site_name" content="thatmee&#39;s blog">
 <meta property="og:description" content="计算机网络LAB1——数据链路层协议实现LAB文档内容梳理1.样例程序分析1.1 datalink.h首先定义了帧的种类，在数据链路层传递的所有帧，分为数据帧、ACK（确认）帧、NAK（否定确认）帧 1234&#x2F;* FRAME kind *&#x2F;#define FRAME_DATA 1#define FRAME_ACK  2#define FRAME_NAK  3">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/pZ3XQuv2S6qxGBy.png?token=AN2MCL2NLNGPFMLIMEQTIITASNOUG">
-<meta property="og:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/P1q6UxWy9zfcAJZ.png?token=AN2MCL42ZXRABPCTS4ELHLLASNO2A">
-<meta property="og:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/TkN1AXZevEKlsQx.png?token=AN2MCL42W4T4UYWDGYH5QJLASNO2U">
-<meta property="og:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/P5WJxNwhGBRKFlt.png?token=AN2MCL44TYETC3KZ37PRISDASNO3Q">
-<meta property="og:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/hwXlKNHo81qUcba.png?token=AN2MCL6SNLKXFQTLG5IPOQLASNO3W">
-<meta property="og:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/R9IxP674r3fHYLh.png?token=AN2MCL5KII42QNA4Q2UIBSDASNO4K">
-<meta property="og:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/hgpaUxHcZ8SzWqy.png?token=AN2MCL7VYAKXKROI4JHZEHDASNO5Y">
-<meta property="og:image" content="http://thatmee.github.io/2021/05/06/images/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/image-20210505210958256.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/pZ3XQuv2S6qxGBy.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/P1q6UxWy9zfcAJZ.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/TkN1AXZevEKlsQx.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/P5WJxNwhGBRKFlt.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/hwXlKNHo81qUcba.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/R9IxP674r3fHYLh.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/hgpaUxHcZ8SzWqy.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/06/yjQkKdcia9BnDGU.png">
 <meta property="article:published_time" content="2021-05-06T03:12:24.000Z">
-<meta property="article:modified_time" content="2021-05-06T03:15:45.445Z">
+<meta property="article:modified_time" content="2021-05-06T03:30:38.890Z">
 <meta property="article:author" content="thatmee">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="网络协议">
 <meta property="article:tag" content="计算机网络">
 <meta property="article:tag" content="LAB">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/thatmee/Pic-bed/master/pZ3XQuv2S6qxGBy.png?token=AN2MCL2NLNGPFMLIMEQTIITASNOUG">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/06/pZ3XQuv2S6qxGBy.png">
 
 
 <link rel="canonical" href="http://thatmee.github.io/2021/05/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CLAB_1%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%8D%8F%E8%AE%AE%E5%AE%9E%E7%8E%B0/">
@@ -281,7 +281,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-05-06 11:12:24 / Modified: 11:15:45" itemprop="dateCreated datePublished" datetime="2021-05-06T11:12:24+08:00">2021-05-06</time>
+      <time title="Created: 2021-05-06 11:12:24 / Modified: 11:30:38" itemprop="dateCreated datePublished" datetime="2021-05-06T11:12:24+08:00">2021-05-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -358,7 +358,7 @@
 <p>必须首先调用此函数对运行环境初始化。该函数的两个参数必<br>须传递 main()函数的两个同名参数。这样做的目的是从命令行参数中获取站点名及某些选项以提供一种配置系统参数的手段。这些 选项包括 重新 指定日志文件，指定 TCP端口号， 设定误码率，等等。当命令行中重新指定了新的参数值，默认值就不再起作用。</p>
 <p>protocol_init()建立两个站点之间的 TCP连接，并且设定时间坐标的 参考 0点，通信的两个站点的时间坐标 0点在建立 TCP连接时被设置成相同的参考时间点 。</p>
 <p>输出样例：</p>
-<p><img src="https://raw.githubusercontent.com/thatmee/Pic-bed/master/pZ3XQuv2S6qxGBy.png?token=AN2MCL2NLNGPFMLIMEQTIITASNOUG" alt="image-20210505142308591"></p>
+<p><img src="https://i.loli.net/2021/05/06/pZ3XQuv2S6qxGBy.png" alt="image-20210505142308591.png"></p>
 <h4 id="3-2-网络层接口"><a href="#3-2-网络层接口" class="headerlink" title="3.2 网络层接口"></a>3.2 网络层接口</h4><h5 id="3-2-1-网络层包长度"><a href="#3-2-1-网络层包长度" class="headerlink" title="3.2.1 网络层包长度"></a>3.2.1 网络层包长度</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PKT_LEN 256</span></span><br></pre></td></tr></table></figure>
 
 <h5 id="3-2-2-流量控制函数"><a href="#3-2-2-流量控制函数" class="headerlink" title="3.2.2 流量控制函数"></a>3.2.2 流量控制函数</h5><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">enable_network_layer</span><span class="params">(<span class="keyword">void</span>)</span></span>;<span class="function"><span class="keyword">void</span> <span class="title">disable_network_layer</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -449,8 +449,8 @@
 <h5 id="3-6-3-获取站点名"><a href="#3-6-3-获取站点名" class="headerlink" title="3.6.3 获取站点名"></a>3.6.3 获取站点名</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">station_name</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <p>此函数获取当前进程所对应的站点名，返回值为字符串 ”A”或者 ”B”。</p>
-<h3 id="4-命令行选项"><a href="#4-命令行选项" class="headerlink" title="4. 命令行选项"></a>4. 命令行选项</h3><p><img src="https://raw.githubusercontent.com/thatmee/Pic-bed/master/P1q6UxWy9zfcAJZ.png?token=AN2MCL42ZXRABPCTS4ELHLLASNO2A" alt="image-20210505141428458"></p>
-<h3 id="5-错误信息"><a href="#5-错误信息" class="headerlink" title="5. 错误信息"></a>5. 错误信息</h3><p><img src="https://raw.githubusercontent.com/thatmee/Pic-bed/master/TkN1AXZevEKlsQx.png?token=AN2MCL42W4T4UYWDGYH5QJLASNO2U" alt="image-20210505141514462"></p>
+<h3 id="4-命令行选项"><a href="#4-命令行选项" class="headerlink" title="4. 命令行选项"></a>4. 命令行选项</h3><p><img src="https://i.loli.net/2021/05/06/P1q6UxWy9zfcAJZ.png" alt="image-20210505141428458.png"></p>
+<h3 id="5-错误信息"><a href="#5-错误信息" class="headerlink" title="5. 错误信息"></a>5. 错误信息</h3><p><img src="https://i.loli.net/2021/05/06/TkN1AXZevEKlsQx.png" alt="image-20210505141514462.png"></p>
 <h3 id="6-问题汇总"><a href="#6-问题汇总" class="headerlink" title="6. 问题汇总"></a>6. 问题汇总</h3><ul>
 <li><p><strong>between函数，为什么那么设计</strong></p>
 </li>
@@ -554,16 +554,16 @@
 </ul>
 </li>
 </ul>
-<h5 id="（2）程序调用关系图"><a href="#（2）程序调用关系图" class="headerlink" title="（2）程序调用关系图"></a>（2）程序调用关系图</h5><p><img src="https://raw.githubusercontent.com/thatmee/Pic-bed/master/P5WJxNwhGBRKFlt.png?token=AN2MCL44TYETC3KZ37PRISDASNO3Q" alt="image-20210505182426979"></p>
+<h5 id="（2）程序调用关系图"><a href="#（2）程序调用关系图" class="headerlink" title="（2）程序调用关系图"></a>（2）程序调用关系图</h5><p><img src="https://i.loli.net/2021/05/06/P5WJxNwhGBRKFlt.png" alt="image-20210505182426979.png"></p>
 <h5 id="（3）响应分析"><a href="#（3）响应分析" class="headerlink" title="（3）响应分析"></a>（3）响应分析</h5><ul>
 <li><p><strong>GBN协议</strong></p>
-<p>  <img src="https://raw.githubusercontent.com/thatmee/Pic-bed/master/hwXlKNHo81qUcba.png?token=AN2MCL6SNLKXFQTLG5IPOQLASNO3W" alt="image-20210505171554501"></p>
+<p>  <img src="https://i.loli.net/2021/05/06/hwXlKNHo81qUcba.png" alt="image-20210505171554501.png"></p>
 </li>
 <li><p><strong>SR协议</strong></p>
-<p>  <img src="https://raw.githubusercontent.com/thatmee/Pic-bed/master/R9IxP674r3fHYLh.png?token=AN2MCL5KII42QNA4Q2UIBSDASNO4K" alt="image-20210505171638295"></p>
+<p>  <img src="https://i.loli.net/2021/05/06/R9IxP674r3fHYLh.png" alt="image-20210505171638295.png"></p>
 </li>
 </ul>
-<h5 id="（4）算法流程图"><a href="#（4）算法流程图" class="headerlink" title="（4）算法流程图"></a>（4）算法流程图</h5><p><img src="https://raw.githubusercontent.com/thatmee/Pic-bed/master/hgpaUxHcZ8SzWqy.png?token=AN2MCL7VYAKXKROI4JHZEHDASNO5Y" alt="image-20210505182001929"></p>
+<h5 id="（4）算法流程图"><a href="#（4）算法流程图" class="headerlink" title="（4）算法流程图"></a>（4）算法流程图</h5><p><img src="https://i.loli.net/2021/05/06/hgpaUxHcZ8SzWqy.png" alt="image-20210505182001929.png"></p>
 <h3 id="三、-实验结果分析"><a href="#三、-实验结果分析" class="headerlink" title="三、 实验结果分析"></a>三、 实验结果分析</h3><p><strong>1.描述你所实现的协议软件是否实现了有误码信道环境中无差错传输功能。</strong></p>
 <p>实现了有误码信道环境中的无差错传输功能，采用了CRC校验和重传技术使错误得以发现和纠正</p>
 <p><strong>2.程序的健壮性如何，能否可靠地长时间运行。</strong></p>
@@ -630,7 +630,7 @@
 </ul>
 <p><strong>5.实验结果分析：你的程序运行实际达到了什么样的效率，比对理论推导给出的结论，有没有差距？给出原因。有没有改进的办法？如果没有时间把这些方法付诸编程实施，介绍你的方案。</strong></p>
 <p>实际达到的效率如下表所示：</p>
-<p><img src="../images/%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/image-20210505210958256.png" alt="image-20210505210958256"></p>
+<p><img src="https://i.loli.net/2021/05/06/yjQkKdcia9BnDGU.png" alt="image-20210505210958256"></p>
 <p>协议效率大部分达到了参考效率，但有一些数据与理想效率有差距，比如无误码情况下的97.3%，以及高误码率下的效率。考虑其原因，猜想主要有以下几方面：</p>
 <ul>
 <li>不能保证数据链路层和物理层之间没有延迟，ACK和重传的帧也不能100%正确，与理想的假设情况有区别</li>
