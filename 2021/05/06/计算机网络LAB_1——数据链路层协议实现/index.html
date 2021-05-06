@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"thatmee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="LAB文档内容梳理样例程序分析datalink.h首先定义了帧的种类，在数据链路层传递的所有帧，分为数据帧、ACK（确认）帧、NAK（否定确认）帧 1234&#x2F;* FRAME kind *&#x2F;#define FRAME_DATA 1#define FRAME_ACK  2#define FRAME_NAK  3  之后给出了三种帧的具体结构，小括号内是该段信息的大小，单位为字节： 123456&#x2F;*">
+<meta name="description" content="本次实验的整理，包括LAB文档内容梳理和实验报告。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计算机网络LAB_1——数据链路层协议实现">
 <meta property="og:url" content="http://thatmee.github.io/2021/05/06/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9CLAB_1%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%8D%8F%E8%AE%AE%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="thatmee&#39;s blog">
-<meta property="og:description" content="LAB文档内容梳理样例程序分析datalink.h首先定义了帧的种类，在数据链路层传递的所有帧，分为数据帧、ACK（确认）帧、NAK（否定确认）帧 1234&#x2F;* FRAME kind *&#x2F;#define FRAME_DATA 1#define FRAME_ACK  2#define FRAME_NAK  3  之后给出了三种帧的具体结构，小括号内是该段信息的大小，单位为字节： 123456&#x2F;*">
+<meta property="og:description" content="本次实验的整理，包括LAB文档内容梳理和实验报告。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2021/05/06/pZ3XQuv2S6qxGBy.png">
 <meta property="og:image" content="https://i.loli.net/2021/05/06/P1q6UxWy9zfcAJZ.png">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/05/06/hgpaUxHcZ8SzWqy.png">
 <meta property="og:image" content="https://i.loli.net/2021/05/06/yjQkKdcia9BnDGU.png">
 <meta property="article:published_time" content="2021-05-06T03:12:24.000Z">
-<meta property="article:modified_time" content="2021-05-06T04:03:11.200Z">
+<meta property="article:modified_time" content="2021-05-06T04:12:28.130Z">
 <meta property="article:author" content="thatmee">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="网络协议">
@@ -281,7 +281,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-05-06 11:12:24 / Modified: 12:03:11" itemprop="dateCreated datePublished" datetime="2021-05-06T11:12:24+08:00">2021-05-06</time>
+      <time title="Created: 2021-05-06 11:12:24 / Modified: 12:12:28" itemprop="dateCreated datePublished" datetime="2021-05-06T11:12:24+08:00">2021-05-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -325,8 +325,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <span id="more"></span>
-
+        <p>本次实验的整理，包括LAB文档内容梳理和实验报告。<span id="more"></span></p>
 <h1 id="LAB文档内容梳理"><a href="#LAB文档内容梳理" class="headerlink" title="LAB文档内容梳理"></a>LAB文档内容梳理</h1><h2 id="样例程序分析"><a href="#样例程序分析" class="headerlink" title="样例程序分析"></a>样例程序分析</h2><h3 id="datalink-h"><a href="#datalink-h" class="headerlink" title="datalink.h"></a>datalink.h</h3><p>首先定义了帧的种类，在数据链路层传递的所有帧，分为数据帧、ACK（确认）帧、NAK（否定确认）帧</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* FRAME kind */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FRAME_DATA 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FRAME_ACK  2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FRAME_NAK  3</span></span><br></pre></td></tr></table></figure>
 

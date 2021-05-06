@@ -23,19 +23,19 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"thatmee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="引入：平面向量类 2D Vector Class在C++中描述平面向量 C++ STL vector: 变长数组  向量数据成员：  double x, double y  或者 std::array&lt;double, 2&gt; v_;  运算  a. 数乘、点积  b. 求长度和方向  ​     | (1, 2)| : √ ( 11 + 22)  ​     dir (1, 2) :">
+<meta name="description" content="崔毅东C++程序设计——运算符重载的笔记。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++程序设计08——运算符重载">
 <meta property="og:url" content="http://thatmee.github.io/2021/04/27/C++%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A108%E2%80%94%E2%80%94%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/index.html">
 <meta property="og:site_name" content="thatmee&#39;s blog">
-<meta property="og:description" content="引入：平面向量类 2D Vector Class在C++中描述平面向量 C++ STL vector: 变长数组  向量数据成员：  double x, double y  或者 std::array&lt;double, 2&gt; v_;  运算  a. 数乘、点积  b. 求长度和方向  ​     | (1, 2)| : √ ( 11 + 22)  ​     dir (1, 2) :">
+<meta property="og:description" content="崔毅东C++程序设计——运算符重载的笔记。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2021/05/06/MKTHDrqfknUy7t8.png">
 <meta property="og:image" content="https://i.loli.net/2021/05/06/tkHxceE5rpDMQYP.png">
 <meta property="og:image" content="https://i.loli.net/2021/05/06/jc7uy5ZGzi2CRos.png">
 <meta property="og:image" content="https://i.loli.net/2021/05/06/jc7uy5ZGzi2CRos.png">
 <meta property="article:published_time" content="2021-04-26T16:32:23.000Z">
-<meta property="article:modified_time" content="2021-05-06T04:03:39.604Z">
+<meta property="article:modified_time" content="2021-05-06T04:11:25.298Z">
 <meta property="article:author" content="thatmee">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -280,7 +280,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-05-06 12:03:39" itemprop="dateModified" datetime="2021-05-06T12:03:39+08:00">2021-05-06</time>
+        <time title="Modified: 2021-05-06 12:11:25" itemprop="dateModified" datetime="2021-05-06T12:11:25+08:00">2021-05-06</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -324,8 +324,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <span id="more"></span>
-
+        <p>崔毅东C++程序设计——运算符重载的笔记。<span id="more"></span></p>
 <h1 id="引入：平面向量类-2D-Vector-Class"><a href="#引入：平面向量类-2D-Vector-Class" class="headerlink" title="引入：平面向量类 2D Vector Class"></a>引入：平面向量类 2D Vector Class</h1><h2 id="在C-中描述平面向量"><a href="#在C-中描述平面向量" class="headerlink" title="在C++中描述平面向量"></a>在C++中描述平面向量</h2><ol>
 <li><p>C++ STL vector: 变长数组</p>
 </li>
