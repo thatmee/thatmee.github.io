@@ -330,7 +330,7 @@
 </li>
 <li><p>向量数据成员：</p>
 <p> <em>double x, double y</em></p>
-<p> <em>或者 std::array&lt;double, 2&gt; v_;</em></p>
+<p> <em>或者 std::array<double, 2> v_;</double,></em></p>
 </li>
 <li><p>运算</p>
 <p> a. 数乘、点积</p>
@@ -365,9 +365,6 @@
 </li>
 </ol>
 <h2 id="Vector-2D-类成员函数"><span class="post-title-index">1.3 </span><a href="#Vector-2D-类成员函数" class="headerlink" title="Vector 2D 类成员函数"></a>Vector 2D 类成员函数</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">atan</span><span class="params">(<span class="keyword">double</span> x)</span></span>; <span class="comment">//返回x的反正切值，以弧度为单位。有其他类型重载</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">sqrt</span><span class="params">(<span class="keyword">double</span> x)</span></span>; <span class="comment">//返回x的平方根。有其它类型重载</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">pow</span> <span class="params">(<span class="keyword">double</span> b, <span class="keyword">double</span> exp)</span></span>; <span class="comment">// 返回b的exp次方。有其它类型重载</span></span><br></pre></td></tr></table></figure>
-
-
-
 <h1 id="重载运算符基本介绍"><span class="post-title-index">2 </span><a href="#重载运算符基本介绍" class="headerlink" title="重载运算符基本介绍"></a>重载运算符基本介绍</h1><h2 id="运算符与函数的异同"><span class="post-title-index">2.1 </span><a href="#运算符与函数的异同" class="headerlink" title="运算符与函数的异同"></a>运算符与函数的异同</h2><ol>
 <li><p>运算符可以看做是函数</p>
 </li>
@@ -389,36 +386,41 @@
 <li><p>“”_suffix 用户自定义字面量运算符(自C++11起)</p>
 </li>
 <li><p>一般运算符:</p>
- <img src="https://i.loli.net/2021/05/06/MKTHDrqfknUy7t8.png" alt="QQ截图20210506113235" style="zoom: 50%;"></li>
+<p> <img src="https://i.loli.net/2021/05/06/MKTHDrqfknUy7t8.png" alt="QQ截图20210506113235" style="zoom: 50%;"></p>
+</li>
 </ol>
-<h3 id="不可重载的运算符"><span class="post-title-index">2.2.2 </span><a href="#不可重载的运算符" class="headerlink" title="不可重载的运算符"></a>不可重载的运算符</h3><table>
+<h3 id="不可重载的运算符"><span class="post-title-index">2.2.2 </span><a href="#不可重载的运算符" class="headerlink" title="不可重载的运算符"></a>不可重载的运算符</h3><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>Operator</th>
-<th align="left">Name</th>
+<th style="text-align:left">Name</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>.</td>
-<td align="left">类属关系运算符</td>
+<td style="text-align:left">类属关系运算符</td>
 </tr>
 <tr>
 <td>.*</td>
-<td align="left">成员指针运算符</td>
+<td style="text-align:left">成员指针运算符</td>
 </tr>
 <tr>
 <td>::</td>
-<td align="left">作用域运算符</td>
+<td style="text-align:left">作用域运算符</td>
 </tr>
 <tr>
 <td>?:</td>
-<td align="left">条件运算符</td>
+<td style="text-align:left">条件运算符</td>
 </tr>
 <tr>
 <td>#</td>
-<td align="left">预编译符号</td>
+<td style="text-align:left">预编译符号</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="运算符重载的限制"><span class="post-title-index">2.2.3 </span><a href="#运算符重载的限制" class="headerlink" title="运算符重载的限制"></a>运算符重载的限制</h3><ol>
 <li>优先级和结合性不变</li>
 <li>不可创造新的运算符</li>
@@ -441,12 +443,12 @@
 <li><p>指定了一个函数或者对象，它是一个可以取地址的表达式</p>
 </li>
 <li><p>举例：</p>
+<p>​    (1)   解引用表达式<em>p：&amp;(\</em>p)</p>
+<p>​    (2)   字符串字面量”abc”：字符串存储在静态区，是有地址的，首地址是一个指针。</p>
+<p>​    (3)   <strong>前置</strong>自增/自减表达式 ++i / —i：前置表达式操作过程是先对i进行自增自减运算，再取地址，&amp;(++i)等价于&amp;i。后置自增/自减表达式不能进行取地址操作</p>
+<p>​    (4)   赋值或复合运算符表达式(x=y或m*=n等）</p>
 </li>
 </ul>
-<p> ​    (1)   解引用表达式*p：&amp;(*p)</p>
-<p> ​    (2)   字符串字面量”abc”：字符串存储在静态区，是有地址的，首地址是一个指针。</p>
-<p> ​    (3)   <strong>前置</strong>自增/自减表达式 ++i / –i：前置表达式操作过程是先对i进行自增自减运算，再取地址，&amp;(++i)等价于&amp;i。后置自增/自减表达式不能进行取地址操作</p>
-<p> ​    (4)   赋值或复合运算符表达式(x=y或m*=n等）</p>
 </li>
 <li><p><strong>纯右值</strong></p>
 <ul>
@@ -455,8 +457,8 @@
 <li><p>举例：</p>
 <p>  (1)   除字符串字面量以外的字面量，比如 32, ‘a’</p>
 <p>  (2)   返回非引用类型的函数调用 int f() { return 1;}</p>
-<p>  (3)   后置自增/自减表达式 i++/i–</p>
-<p>  (4)   算术/逻辑/关系表达式（a+b、a&amp;b、a&lt;&lt;b）（a&amp;&amp;b、a||b、~a）（a==b、a&gt;=b、a&lt;b）</p>
+<p>  (3)   后置自增/自减表达式 i++/i—</p>
+<p>  (4)   算术/逻辑/关系表达式（a+b、a&amp;b、a&lt;<b）（a&&b、a||b、~a）（a==b、a>=b、a&lt;b）</b）（a&&b、a||b、~a）（a==b、a></p>
 <p>  (5)   取地址（&amp;x）</p>
 </li>
 </ul>
@@ -467,32 +469,24 @@
 <h3 id="C-11-将亡值"><span class="post-title-index">2.3.3 </span><a href="#C-11-将亡值" class="headerlink" title="C++11 将亡值"></a>C++11 将亡值</h3><ol>
 <li><p>将亡值：将亡值也指定了一个对象，是一个将纯右值转换为<strong>右值引用</strong>的表达式</p>
 <ul>
-<li>右值引用：int**&amp;&amp;** rvr1{ 22 };</li>
-<li>举例：</li>
+<li>右值引用：int<strong>&amp;&amp;</strong> rvr1{ 22 };</li>
+<li><p>举例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">prv</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> <span class="number">6</span> * x; &#125; <span class="comment">// pure rvalue </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span>&amp; lvr5&#123; <span class="number">21</span> &#125;; <span class="comment">// 常量左值引用可引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp; lvr6&#123; <span class="number">22</span> &#125;; <span class="comment">// 错！非常量左值引用不可引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp;&amp; rvr1&#123; <span class="number">22</span> &#125;; <span class="comment">// 右值引用可以引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp; lvr7&#123; <span class="built_in">prv</span>(<span class="number">2</span>) &#125;; <span class="comment">// 错！非常量左值引用不可引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp;&amp; rvr2&#123; <span class="built_in">prv</span>(<span class="number">2</span>) &#125;; <span class="comment">// 右值引用普通函数返回值</span></span><br><span class="line">      rvr1 = ++rvr2; <span class="comment">// 右值引用做左值使用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>右值引用可以看作延续了纯右值的生命期，比如line7，原本执行完prv(2)之后返回值就找不到了，使用右值引用就可以继续对返回值进行修改，比如line8。</p>
+</li>
 </ul>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">prv</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> <span class="number">6</span> * x; &#125; <span class="comment">// pure rvalue </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span>&amp; lvr5&#123; <span class="number">21</span> &#125;; <span class="comment">// 常量左值引用可引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp; lvr6&#123; <span class="number">22</span> &#125;; <span class="comment">// 错！非常量左值引用不可引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp;&amp; rvr1&#123; <span class="number">22</span> &#125;; <span class="comment">// 右值引用可以引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp; lvr7&#123; <span class="built_in">prv</span>(<span class="number">2</span>) &#125;; <span class="comment">// 错！非常量左值引用不可引用纯右值</span></span><br><span class="line">      <span class="keyword">int</span>&amp;&amp; rvr2&#123; <span class="built_in">prv</span>(<span class="number">2</span>) &#125;; <span class="comment">// 右值引用普通函数返回值</span></span><br><span class="line">      rvr1 = ++rvr2; <span class="comment">// 右值引用做左值使用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 右值引用可以看作延续了纯右值的生命期，比如line7，原本执行完prv(2)之后返回值就找不到了，使用右值引用就可以继续对返回值进行修改，比如line8。</p>
 </li>
 </ol>
 <h1 id="重载实例"><span class="post-title-index">3 </span><a href="#重载实例" class="headerlink" title="重载实例"></a>重载实例</h1><h2 id="重载一般二元算术运算符"><span class="post-title-index">3.1 </span><a href="#重载一般二元算术运算符" class="headerlink" title="重载一般二元算术运算符"></a>重载一般二元算术运算符</h2><h3 id="调用一般二元运算符"><span class="post-title-index">3.1.1 </span><a href="#调用一般二元运算符" class="headerlink" title="调用一般二元运算符"></a>调用一般二元运算符</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Vec2D a&#123;<span class="number">1</span>,<span class="number">2</span>&#125;, b&#123;<span class="number">3</span>, <span class="number">6</span>&#125;; <span class="keyword">double</span> z &#123;<span class="number">1.3</span>&#125;;</span><br><span class="line">Vec2D c = a + b;  <span class="comment">// a.operator+(b); à Vec2D Vec2D::operator+(Vec2D);</span></span><br><span class="line">Vec2D d = a + z;  <span class="comment">// a.operator+(z); à Vec2D Vec2D::operator+(double);</span></span><br><span class="line">Vec2D e = z + b;  <span class="comment">// z.operator+(b); à Vec2D double::operator+(Vec2D);错误！</span></span><br></pre></td></tr></table></figure>
-
 <p>【注意】最后一行错误原因：double 类型是内建类型，其运算符不能被重载</p>
 <h3 id="函数原型"><span class="post-title-index">3.1.2 </span><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Vec2D</span> &#123;</span></span><br><span class="line">  	Vec2D <span class="keyword">operator</span> +(Vec2D);                <span class="comment">//成员函数</span></span><br><span class="line">  	Vec2D <span class="keyword">operator</span> +(<span class="keyword">double</span>);               <span class="comment">//成员函数</span></span><br><span class="line">  	<span class="keyword">friend</span> Vec2D <span class="keyword">operator</span> +(<span class="keyword">double</span>, Vec2D); <span class="comment">//非成员函数，友元函数    </span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Vec2D <span class="keyword">operator</span> +(<span class="keyword">double</span>, Vec2D) &#123; <span class="comment">// Do something</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>【注意】友元函数需要两个参数，不能像成员函数一样默认本对象为调用者</p>
 <h3 id="关于返回值"><span class="post-title-index">3.1.3 </span><a href="#关于返回值" class="headerlink" title="关于返回值"></a>关于返回值</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Matrice Matrice::<span class="keyword">operator</span>+(<span class="keyword">const</span> Matrice&amp; second_m) <span class="keyword">const</span> &#123;</span><br><span class="line">    Matrice resultMatrice&#123; <span class="keyword">this</span>-&gt;lines, <span class="keyword">this</span>-&gt;rows &#125;;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (<span class="keyword">this</span>-&gt;lines); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; (<span class="keyword">this</span>-&gt;rows); j++) &#123;</span><br><span class="line">            (resultMatrice.matricePointer)[i][j] =</span><br><span class="line">                (<span class="keyword">this</span>-&gt;matricePointer)[i][j] + (second_m.matricePointer)[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> resultMatrice; <span class="comment">//调用拷贝构造函数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>【注意】类内如果有指针成员，在返回的时候一定要格外小心深拷贝、浅拷贝。</p>
 <p>如果要用上面代码实现矩阵加法的重载，一定要先重载拷贝构造函数，将默认的浅拷贝重载成深拷贝的方式，不然将会出现内存泄漏——也就是直接返回了 resultMatrice 这个局部对象，而+运算的函数体结束后这个对象会立刻被析构，其中的矩阵指针也会立刻被释放，这时继续使用返回值里的矩阵指针，显然是内存泄漏！！</p>
 <h3 id="举例"><span class="post-title-index">3.1.4 </span><a href="#举例" class="headerlink" title="举例"></a>举例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec2D <span class="title">v1</span><span class="params">(<span class="number">2</span>, <span class="number">4</span>)</span></span>;</span><br><span class="line">Vec2D v2 = v1 + <span class="built_in">Vec2D</span>(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;v1 is &quot;</span> &lt;&lt; v1.<span class="built_in">toString</span>() &lt;&lt; endl;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;v2 is &quot;</span> &lt;&lt; v2.<span class="built_in">toString</span>() &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
-
-
-
 <h2 id="重载复合二元算术运算符（-and-）"><span class="post-title-index">3.2 </span><a href="#重载复合二元算术运算符（-and-）" class="headerlink" title="重载复合二元算术运算符（+=, -=, *=, and /=）"></a>重载复合二元算术运算符（+=, -=, *=, and /=）</h2><h3 id="复合运算符操作的特殊之处"><span class="post-title-index">3.2.1 </span><a href="#复合运算符操作的特殊之处" class="headerlink" title="复合运算符操作的特殊之处"></a>复合运算符操作的特殊之处</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">v1 += v2; <span class="comment">// 语句执行后，v1的值被改变了（这非常重要！！）</span></span><br><span class="line">v1 = v1 + v2;</span><br></pre></td></tr></table></figure>
-
 <h3 id="复合运算符的重载"><span class="post-title-index">3.2.2 </span><a href="#复合运算符的重载" class="headerlink" title="复合运算符的重载"></a>复合运算符的重载</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Vec2D Vec2D::<span class="keyword">operator</span> +=(<span class="keyword">const</span> Vec2D&amp; secondVec2D ) &#123;</span><br><span class="line">    *<span class="keyword">this</span> = <span class="keyword">this</span>-&gt;<span class="built_in">add</span>(secondVec2D); <span class="comment">//add函数返回临时的匿名对象，这个对象被赋给this指针</span></span><br><span class="line"> 	<span class="keyword">return</span> (*<span class="keyword">this</span>); <span class="comment">//返回解引用的this指针，也就是返回了this指向的对象</span></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function">Vec2D <span class="title">Vec2D::add</span><span class="params">(<span class="keyword">const</span> Vec2D&amp; secondVec2D)</span> </span>&#123; <span class="comment">//prvalue</span></span><br><span class="line"> 	<span class="keyword">double</span> m = x_ + secondVec2D.<span class="built_in">getX</span>()</span><br><span class="line"> 	<span class="keyword">double</span> n = y_ + secondVec2D.y_;</span><br><span class="line"> 	<span class="keyword">return</span> <span class="built_in">Vec2D</span>(m, n); <span class="comment">//返回临时的匿名对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p>如果将以上代码对应v1+=v2; 则有：</p>
 <ul>
@@ -502,15 +496,12 @@
 </li>
 <li><p>如果将</p>
   <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*<span class="keyword">this</span> = <span class="keyword">this</span>-&gt;<span class="built_in">add</span>(secondVec2D);</span><br><span class="line"><span class="keyword">return</span> (*<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
-
 <p>  修改为：</p>
   <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="keyword">this</span>-&gt;<span class="built_in">add</span>(secondVec2D);</span><br></pre></td></tr></table></figure>
-
 <p>  这个重载是否还有效？</p>
 </li>
 </ul>
 <h3 id="举例-1"><span class="post-title-index">3.2.3 </span><a href="#举例-1" class="headerlink" title="举例"></a>举例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec2D <span class="title">v2</span><span class="params">(<span class="number">2</span>, <span class="number">4</span>)</span></span>;</span><br><span class="line">v2 += <span class="built_in">Vec2D</span>(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;v2 is &quot;</span> &lt;&lt; v2.<span class="built_in">toString</span>() &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
-
 <h2 id="重载数组下标运算符"><span class="post-title-index">3.3 </span><a href="#重载数组下标运算符" class="headerlink" title="重载数组下标运算符"></a>重载数组下标运算符</h2><h3 id="重载-运算符"><span class="post-title-index">3.3.1 </span><a href="#重载-运算符" class="headerlink" title="重载[]运算符"></a>重载[]运算符</h3><ul>
 <li><p>为什么重载[]运算符</p>
 </li>
@@ -524,11 +515,12 @@
 <li><p>访问器和修改器：作为访问器就是用[]运算符读取数据，修改器就是用[]运算符修改数据</p>
 </li>
 <li><p>使r2[]成为左值的方法：使[]返回一个引用</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span>&amp; Vec2D::<span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">int</span> &amp;index) &#123; <span class="comment">//lvalue</span></span><br><span class="line">  <span class="keyword">if</span> (index == <span class="number">0</span>)</span><br><span class="line">      <span class="keyword">return</span> x_;  <span class="comment">//x_ can be modified</span></span><br><span class="line">      <span class="comment">//...... Now, the Vec2D class is mutable.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span>&amp; Vec2D::<span class="keyword">operator</span>[](<span class="keyword">const</span> <span class="keyword">int</span> &amp;index) &#123; <span class="comment">//lvalue</span></span><br><span class="line">  <span class="keyword">if</span> (index == <span class="number">0</span>)</span><br><span class="line">      <span class="keyword">return</span> x_;  <span class="comment">//x_ can be modified</span></span><br><span class="line">      <span class="comment">//...... Now, the Vec2D class is mutable.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <p>​    </p>
 <h2 id="重载一元运算符"><span class="post-title-index">3.4 </span><a href="#重载一元运算符" class="headerlink" title="重载一元运算符"></a>重载一元运算符</h2><h3 id="单目运算符"><span class="post-title-index">3.4.1 </span><a href="#单目运算符" class="headerlink" title="单目运算符"></a>单目运算符</h3><ol>
-<li><p>主要的单目运算符：–, ++, -（负号）, *（解引用）</p>
+<li><p>主要的单目运算符：—, ++, -（负号）, *（解引用）</p>
 </li>
 <li><p>编译器执行过程：</p>
 <ul>
@@ -540,9 +532,7 @@
 </li>
 </ol>
 <h3 id="重载负号运算符"><span class="post-title-index">3.4.2 </span><a href="#重载负号运算符" class="headerlink" title="重载负号运算符"></a>重载负号运算符</h3><h4 id="调用"><span class="post-title-index">3.4.2.1 </span><a href="#调用" class="headerlink" title="调用"></a>调用</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec2D <span class="title">v1</span><span class="params">(<span class="number">2</span>, <span class="number">3</span>)</span></span>;</span><br><span class="line">Vec2D v2 = -v1;  <span class="comment">// 向量v1求负值；v1的值不变</span></span><br><span class="line">cout &lt;&lt; v1.<span class="built_in">toString</span>();</span><br></pre></td></tr></table></figure>
-
 <h4 id="重载负号运算符-1"><span class="post-title-index">3.4.2.2 </span><a href="#重载负号运算符-1" class="headerlink" title="重载负号运算符"></a>重载负号运算符</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Vec2D* Vec2D::<span class="keyword">operator</span>-()&#123;</span><br><span class="line">    <span class="keyword">return</span> *Vec2D*(-<span class="keyword">this</span>-&gt;x_**,** **-**<span class="keyword">this</span>-&gt;y_); <span class="comment">// 返回匿名临时对象 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="重载-和-运算符"><span class="post-title-index">3.4.3 </span><a href="#重载-和-运算符" class="headerlink" title="重载++和- -运算符"></a>重载++和- -运算符</h3><h4 id="前置、后置运算符与操作顺序"><span class="post-title-index">3.4.3.1 </span><a href="#前置、后置运算符与操作顺序" class="headerlink" title="前置、后置运算符与操作顺序"></a>前置、后置运算符与操作顺序</h4><ul>
 <li><p>前置：先增减后取值，表达式是lvalue</p>
 </li>
@@ -558,40 +548,36 @@
 </li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec2D <span class="title">v1</span><span class="params">(<span class="number">2</span>, <span class="number">3</span>)</span></span>;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;v1: &quot;</span> &lt;&lt; v1.<span class="built_in">toString</span>() &lt;&lt; endl; <span class="comment">//v1: (3, 4)</span></span><br><span class="line">Vec2D v2 = ++v1;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;v2: &quot;</span> &lt;&lt; v2.<span class="built_in">toString</span>() &lt;&lt; endl; <span class="comment">// v2: (3, 4)</span></span><br><span class="line"><span class="function">Vec2D <span class="title">v3</span><span class="params">(<span class="number">2</span>, <span class="number">3</span>)</span></span>;</span><br><span class="line">Vec2D v4 = v3++;</span><br><span class="line">cout &lt;&lt; <span class="string">&quot;v3: &quot;</span> &lt;&lt; v3.<span class="built_in">toString</span>() &lt;&lt; endl; <span class="comment">// v3: (3, 4)</span></span><br><span class="line">cout &lt;&lt; <span class="string">&quot;v4: &quot;</span> &lt;&lt; v4.<span class="built_in">toString</span>() &lt;&lt; endl; <span class="comment">// v4: (2, 3)</span></span><br></pre></td></tr></table></figure>
-
 <h4 id="前置与后置在函数定义中的区别"><span class="post-title-index">3.4.3.2 </span><a href="#前置与后置在函数定义中的区别" class="headerlink" title="前置与后置在函数定义中的区别"></a>前置与后置在函数定义中的区别</h4><p><img src="https://i.loli.net/2021/05/06/jc7uy5ZGzi2CRos.png" alt="image-20210426215559462"></p>
 <ul>
-<li><p>前置++/–重载无参数，返回引用类型</p>
+<li><p>前置++/—重载无参数，返回引用类型</p>
 </li>
-<li><p>后置++/–重载带参数——“dummy”</p>
+<li><p>后置++/—重载带参数——“dummy”</p>
 <ul>
 <li>这个参数用于表示这是一个后置运算符，实际调用的时候并不会传参</li>
 </ul>
 </li>
-<li><p>若在类外定义，则不论前置后置都需要参数</p>
-</li>
+<li>若在类外定义，则不论前置后置都需要参数</li>
 </ul>
 <h4 id="重载实例-1"><span class="post-title-index">3.4.3.3 </span><a href="#重载实例-1" class="headerlink" title="重载实例"></a>重载实例</h4><ul>
 <li>前置++运算符</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Vec2D&amp; Vec2D::<span class="keyword">operator</span>++()&#123;</span><br><span class="line">    x_ += <span class="number">1</span>;</span><br><span class="line">    y_ += <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>; <span class="comment">//返回对象本身</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>后置++运算符</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Vec2D Vec2D::<span class="keyword">operator</span>++(<span class="keyword">int</span> dummy)&#123;</span><br><span class="line">    <span class="function">Vec2D <span class="title">temp</span><span class="params">(<span class="keyword">this</span>-&gt;x_, <span class="keyword">this</span>-&gt;y_)</span></span>;</span><br><span class="line">    x_ += <span class="number">1</span>;</span><br><span class="line">    y_ += <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> temp; <span class="comment">//返回的是未自增的对象，是一个纯右值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><strong>两条返回语句的不同</strong>导致了前置++和后置++的区别</li>
 </ul>
 <h2 id="重载流插入-lt-lt-提取-gt-gt-运算符"><span class="post-title-index">3.5 </span><a href="#重载流插入-lt-lt-提取-gt-gt-运算符" class="headerlink" title="重载流插入(&lt;&lt;)/提取(&gt;&gt;)运算符"></a>重载流插入(&lt;&lt;)/提取(&gt;&gt;)运算符</h2><h3 id="重载-lt-lt-gt-gt-的目的"><span class="post-title-index">3.5.1 </span><a href="#重载-lt-lt-gt-gt-的目的" class="headerlink" title="重载&lt;&lt;/&gt;&gt;的目的"></a>重载&lt;&lt;/&gt;&gt;的目的</h3><p>能够把对象信息直接输出，比如：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cout &lt;&lt; vec2d;</span><br><span class="line">cin &gt;&gt; vec2d;</span><br></pre></td></tr></table></figure>
-
 <h3 id="重载为友元函数"><span class="post-title-index">3.5.2 </span><a href="#重载为友元函数" class="headerlink" title="重载为友元函数"></a>重载为友元函数</h3><ol>
 <li><p>为什么不能重载为成员函数</p>
 <p> 运算符重载为类成员函数后，当调用该运算符时，左操作数必须是该类的实例。若&lt;&lt;和&gt;&gt;重载为成员函数，则只能用 v1&lt;&lt;cout; 如下所示：</p>
- <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*重载为成员函数*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vec2D</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;stream);</span><br><span class="line">    istream &amp;<span class="keyword">operator</span>&gt;&gt;(istream &amp;stream);</span><br><span class="line">&#125;;</span><br><span class="line">Vec2D v1;</span><br><span class="line">v1 &lt;&lt; cout; <span class="comment">//Vec2D对象只能作为第一个操作数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*重载为友元函数*/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Vec2D</span> &#123;</span> </span><br><span class="line">  <span class="keyword">friend</span> ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;stream, Vec2D &amp;v);</span><br><span class="line">  <span class="keyword">friend</span> istream &amp;<span class="keyword">operator</span>&gt;&gt;(istream &amp;stream, Vec2D &amp;v);</span><br><span class="line">&#125;;</span><br><span class="line">Vec2D v1;</span><br><span class="line">cout &lt;&lt; v1; <span class="comment">//更符合编程习惯</span></span><br></pre></td></tr></table></figure></li>
-<li><p>为什么友元函数的返回值是**ostream&amp;**类型</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*重载为成员函数*/</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vec2D</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;stream);</span><br><span class="line">    istream &amp;<span class="keyword">operator</span>&gt;&gt;(istream &amp;stream);</span><br><span class="line">&#125;;</span><br><span class="line">Vec2D v1;</span><br><span class="line">v1 &lt;&lt; cout; <span class="comment">//Vec2D对象只能作为第一个操作数</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*重载为友元函数*/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Vec2D</span> &#123;</span> </span><br><span class="line">  <span class="keyword">friend</span> ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;stream, Vec2D &amp;v);</span><br><span class="line">  <span class="keyword">friend</span> istream &amp;<span class="keyword">operator</span>&gt;&gt;(istream &amp;stream, Vec2D &amp;v);</span><br><span class="line">&#125;;</span><br><span class="line">Vec2D v1;</span><br><span class="line">cout &lt;&lt; v1; <span class="comment">//更符合编程习惯</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为什么友元函数的返回值是<strong>ostream&amp;</strong>类型</p>
 <p> 要实现cout&lt;&lt;x&lt;&lt;y; 这类<strong>连续输出</strong>的代码，想要输出y，cout&lt;&lt;x这一部分应该返回一个ostream类型，所以使用ostream&amp;作为返回值</p>
 <blockquote>
 <p>返回ostream类型与&amp;有什么联系？为什么一定是&amp;呢</p>
@@ -605,15 +591,11 @@
 <li>类型转换函数：</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec2D::<span class="keyword">operator</span> <span class="title">double</span><span class="params">()</span> </span>&#123; <span class="comment">//操作符名称和要转到的类型同名，类似于构造函数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">magnitude</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>调用实例：</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Vec2D <span class="title">v1</span><span class="params">(<span class="number">3</span>, <span class="number">4</span>)</span></span>;</span><br><span class="line"><span class="keyword">double</span> d = v1 + <span class="number">5.1</span>; <span class="comment">// d: 10.1</span></span><br><span class="line"><span class="keyword">double</span> e = <span class="keyword">static_cast</span>&lt;<span class="keyword">double</span>&gt;(v1);  <span class="comment">// e: 5.0</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="重载赋值运算符"><span class="post-title-index">3.7 </span><a href="#重载赋值运算符" class="headerlink" title="重载赋值运算符"></a>重载赋值运算符</h2><p><a target="_blank" rel="noopener" href="https://www.icourse163.org/learn/BUPT-1003564002?tid=1461043448#/learn/content?type=detail&id=1237770721&cid=1257884782">C++程序设计（面向对象进阶）_中国大学MOOC(慕课) (icourse163.org)</a></p>
+<h2 id="重载赋值运算符"><span class="post-title-index">3.7 </span><a href="#重载赋值运算符" class="headerlink" title="重载赋值运算符"></a>重载赋值运算符</h2><p><a target="_blank" rel="noopener" href="https://www.icourse163.org/learn/BUPT-1003564002?tid=1461043448#/learn/content?type=detail&amp;id=1237770721&amp;cid=1257884782">C++程序设计（面向对象进阶）_中国大学MOOC(慕课) (icourse163.org)</a></p>
 
     </div>
 
@@ -689,14 +671,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">25k</span>
+    <span title="Symbols count total">21k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">22 mins.</span>
+    <span title="Reading time total">19 mins.</span>
   </span>
 </div>
 

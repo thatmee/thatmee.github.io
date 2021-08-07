@@ -21,9 +21,9 @@
   --btn-default-hover-color: #fff;
   --btn-default-hover-border-color: #222;
   --highlight-background: #f0f0f0;
-  --highlight-foreground: #444;
-  --highlight-gutter-background: #dedede;
-  --highlight-gutter-foreground: #555;
+  --highlight-foreground: $highlight-foreground;
+  --highlight-gutter-background: $highlight-gutter-background;
+  --highlight-gutter-foreground: $highlight-gutter-foreground;
 }
 html {
   line-height: 1.15; /* 1 */
@@ -2457,6 +2457,13 @@ ul.breadcrumb li:last-child {
 .tag-cloud-10 {
   border-bottom-color: #111;
   color: #111;
+}
+mjx-container[jax="CHTML"][display="true"],
+.has-jax {
+  overflow: auto hidden;
+}
+mjx-container[display="true"] + br {
+  display: none;
 }
 .use-motion .animated {
   animation-fill-mode: none;
