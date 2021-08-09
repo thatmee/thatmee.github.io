@@ -31,7 +31,7 @@
 <meta property="og:description" content="学习Haskell函数式编程语言，第一部分，基础知识和基本函数语法。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-08-07T15:20:23.000Z">
-<meta property="article:modified_time" content="2021-08-09T10:02:31.288Z">
+<meta property="article:modified_time" content="2021-08-09T10:38:13.976Z">
 <meta property="article:author" content="thatmee">
 <meta property="article:tag" content="Haskell">
 <meta name="twitter:card" content="summary">
@@ -275,7 +275,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-08-09 18:02:31" itemprop="dateModified" datetime="2021-08-09T18:02:31+08:00">2021-08-09</time>
+        <time title="Modified: 2021-08-09 18:38:13" itemprop="dateModified" datetime="2021-08-09T18:38:13+08:00">2021-08-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -406,8 +406,7 @@
 <h2 id="let绑定"><span class="post-title-index">2.5 </span><a href="#let绑定" class="headerlink" title="let绑定"></a>let绑定</h2><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--依据半径和高度求圆柱体表面积--</span></span><br><span class="line"><span class="title">cylinder</span> :: (<span class="type">RealFloat</span> a) =&gt; a -&gt; a -&gt; a   </span><br><span class="line"><span class="title">cylinder</span> r h =  </span><br><span class="line">    <span class="keyword">let</span> sideArea = <span class="number">2</span> * pi * r * h   </span><br><span class="line">        topArea = pi * r ^<span class="number">2</span>   </span><br><span class="line">    <span class="keyword">in</span>  sideArea + <span class="number">2</span> * topArea  </span><br></pre></td></tr></table></figure>
 <p>let的格式为<font color="c7254e"><code>let [bindings] in [expressions]</code></font>。在let中绑定的名字仅对in部分可见。let里面定义的名字也得对齐到一列。</p>
 <blockquote>
-<font color="blue">**let绑定和where绑定的区别：**</font>
-
+<p><strong>note：</strong><font color="blue"><strong>let绑定和where绑定的区别：</strong> </font></p>
 <font color="blue">**（1）where绑定是个语法结构，let绑定是个表达式，可以随处安放（就像if语句一样）。**</font>
 
 <font color="blue">**（2）let定义域限制的相当小，因此不能在多个门卫中使用。where跟在函数体后面，主函数体距离类型声明近一些，会更易读。**</font>
@@ -433,8 +432,7 @@
 <p><strong>case表达式的语法：</strong></p>
 <figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">case</span> expression <span class="keyword">of</span> pattern -&gt; result   </span><br><span class="line">                   pattern -&gt; result   </span><br><span class="line">                   pattern -&gt; result   </span><br><span class="line">                   ...  </span><br></pre></td></tr></table></figure>
 <blockquote>
-<font color="blue">**case表达式和模式匹配的区别：**</font>
-
+<p><strong>note：</strong><font color="blue"><strong>case表达式和模式匹配的区别：</strong></font></p>
 <p>​        <font color="blue"><strong>函数参数的模式匹配只能在定义函数时使用，而case表达式可以用在任何地方</strong></font></p>
 </blockquote>
 <h1 id="关于函数式编程和Haskell的参考文章"><span class="post-title-index">3 </span><a href="#关于函数式编程和Haskell的参考文章" class="headerlink" title="关于函数式编程和Haskell的参考文章"></a>关于函数式编程和Haskell的参考文章</h1><p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/u4eNCEwHEfBZUHpE4RVo">Clojure和Haskell——深度学习中的函数式语言之美-InfoQ</a></p>
