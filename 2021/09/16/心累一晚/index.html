@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/09/16/2ZD6xN4v5YMdVCE.png">
 <meta property="og:image" content="https://i.loli.net/2021/09/16/3BJDdmVGiKhSqoF.png">
 <meta property="article:published_time" content="2021-09-15T17:47:00.000Z">
-<meta property="article:modified_time" content="2021-09-16T02:43:10.958Z">
+<meta property="article:modified_time" content="2021-09-17T07:43:19.399Z">
 <meta property="article:author" content="thatmee">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="pip">
@@ -170,7 +170,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pip%E5%91%BD%E4%BB%A4%E9%85%8D%E7%BD%AE"><span class="nav-text">1 pip命令配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#face-recognition%E5%8C%85%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-text">2 face_recognition包的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E5%AE%89%E8%A3%85Cmake"><span class="nav-text">2.1 先安装Cmake</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85dlib%E7%9A%84%E5%9D%91"><span class="nav-text">2.2 安装dlib的坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85face-recognition"><span class="nav-text">2.3 开始安装face_recognition</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pip%E5%91%BD%E4%BB%A4%E9%85%8D%E7%BD%AE"><span class="nav-text">1 pip命令配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#face-recognition%E5%8C%85%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-text">2 face_recognition包的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E5%AE%89%E8%A3%85Cmake"><span class="nav-text">2.1 先安装Cmake</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85dlib%E7%9A%84%E5%9D%91"><span class="nav-text">2.2 安装dlib的坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85face-recognition"><span class="nav-text">2.3 开始安装face_recognition</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E5%92%8CAnaconda%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">3 Python和Anaconda环境配置</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -275,10 +275,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2021-09-16 01:47:00 / Modified: 10:43:10" itemprop="dateCreated datePublished" datetime="2021-09-16T01:47:00+08:00">2021-09-16</time>
+      <time title="Created: 2021-09-16 01:47:00" itemprop="dateCreated datePublished" datetime="2021-09-16T01:47:00+08:00">2021-09-16</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-09-17 15:43:19" itemprop="dateModified" datetime="2021-09-17T15:43:19+08:00">2021-09-17</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -303,7 +309,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Symbols count in article: </span>
-      <span>1.2k</span>
+      <span>1.6k</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
@@ -329,8 +335,6 @@
 <li><code>pip install --update --user pip</code>能够成功更新pip</li>
 </ul>
 </li>
-</ol>
-<ol>
 <li><p><strong>pip命令在cmd中无效的问题</strong></p>
 <ul>
 <li>显然是没有添加环境变量</li>
@@ -347,8 +351,6 @@
 <li>之后在尝试离线安装的时候，中间文件以及错误报告都在自己创建的文件夹中，于是查看详细错误报告，发现是VS的目录下一个<strong>CL.exe</strong>文件打开失败。退出360安全卫士后解决。（可恶的360！）</li>
 </ul>
 </li>
-</ol>
-<ol>
 <li><p><strong>subprocess.CalledProcessError: Command ‘[‘cmake’, ‘—build’, ‘.’, ‘—config’, ‘Release’, ‘—‘, ‘/m’]’ returned non-zero exit status 1.</strong></p>
 <ul>
 <li>退出360重新安装时出现这个报错。（在疯的边缘了）</li>
@@ -356,8 +358,6 @@
 <li>不再报上面的错了，但装完使用pipshow还是找不到（猜测是安装路径的问题，但是把文件拷贝过去还是找不到，直接在依赖包的路径下面安装也不行，所以又尝试了安装dlib.whl文件，见下）</li>
 </ul>
 </li>
-</ol>
-<ol>
 <li><p><strong>尝试安装dlib的whl文件，报错：平台不支持</strong></p>
 <ul>
 <li><p>了解到cp36代表支持Cpython3.6，于是conda一个新环境试试</p>
@@ -377,8 +377,23 @@
 </ul>
 </li>
 </ol>
+<ol>
+<li><p><strong>这还没完，这里是第二天装完OpenCv开始跑代码的虾滑…编译器报错dlib的DLL缺失</strong></p>
+<ul>
+<li>猜测是由于修改文件名的骚操作导致安装出现问题，解决方法是重装dlib……好嘛从头开始，真的是吐了</li>
+<li>这又告诉我们，<code>pip show XXX</code> 是无法检测包有没有安装好的。还是得用 <code>import</code>看看能不能正常使用。</li>
+</ul>
+</li>
+<li><p><strong>踏上重装之旅，<code>pip install dlib --verbose</code> 报错：</strong><font color="blue"><strong>error C2734: “GifAsciiTable8x8”: 如果不是外部的，则必须初始化常量对象 (编译源文件 E:\APKS\dlib-19.14.0\too</strong></font></p>
+<ul>
+<li>找到一条看起来很正确的方法！<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_30267617/article/details/119725917">(5条消息) win10安装dlib问题记录_何为其然的博客-CSDN博客</a></li>
+</ul>
+</li>
+</ol>
 <h2 id="开始安装face-recognition"><span class="post-title-index">2.3 </span><a href="#开始安装face-recognition" class="headerlink" title="开始安装face_recognition"></a>开始安装face_recognition</h2><p><img src="https://i.loli.net/2021/09/16/3BJDdmVGiKhSqoF.png" alt="image-20210916014627953"></p>
 <p>非常顺利！！</p>
+<h1 id="Python和Anaconda环境配置"><span class="post-title-index">3 </span><a href="#Python和Anaconda环境配置" class="headerlink" title="Python和Anaconda环境配置"></a>Python和Anaconda环境配置</h1><p>由于已经装了Python3.7 和Python3.8，又新下载了Anaconda，一时搞得有些混乱，于是决定把这俩东西整理一下。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yamin/p/7111397.html">如何在已安装Python条件下，安装Anaconda,，并将原有Python添加到Anaconda中 - amazingym - 博客园 (cnblogs.com)</a></p>
 
     </div>
 
@@ -455,14 +470,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Symbols count total: </span>
-    <span title="Symbols count total">24k</span>
+    <span title="Symbols count total">25k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">22 mins.</span>
+    <span title="Reading time total">23 mins.</span>
   </span>
 </div>
 
