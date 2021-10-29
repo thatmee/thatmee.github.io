@@ -6,7 +6,7 @@
   <link href="http://thatmee.github.io/atom.xml" rel="self"/>
   
   <link href="http://thatmee.github.io/"/>
-  <updated>2021-09-18T08:44:56.445Z</updated>
+  <updated>2021-10-29T04:48:46.040Z</updated>
   <id>http://thatmee.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>调试技巧总结</title>
+    <link href="http://thatmee.github.io/2021/10/29/%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/"/>
+    <id>http://thatmee.github.io/2021/10/29/%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/</id>
+    <published>2021-10-29T03:24:00.000Z</published>
+    <updated>2021-10-29T04:48:46.040Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="监视数组"><span class="post-title-index">1 </span><a href="#监视数组" class="headerlink" title="监视数组"></a>监视数组</h1><p><code>*( type (*)[ length ]) 数组名</code></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;监视数组&quot;&gt;&lt;span class=&quot;post-title-index&quot;&gt;1 &lt;/span&gt;&lt;a href=&quot;#监视数组&quot; class=&quot;headerlink&quot; title=&quot;监视数组&quot;&gt;&lt;/a&gt;监视数组&lt;/h1&gt;&lt;p&gt;&lt;code&gt;*( type (*)[ len</summary>
+      
+    
+    
+    
+    <category term="专业" scheme="http://thatmee.github.io/categories/%E4%B8%93%E4%B8%9A/"/>
+    
+    <category term="其他" scheme="http://thatmee.github.io/categories/%E4%B8%93%E4%B8%9A/%E5%85%B6%E4%BB%96/"/>
+    
+    
+    <category term="debug" scheme="http://thatmee.github.io/tags/debug/"/>
+    
+    <category term="VScode" scheme="http://thatmee.github.io/tags/VScode/"/>
+    
+  </entry>
   
   <entry>
     <title>修改HEXO博客Next主题的文章显示样式</title>

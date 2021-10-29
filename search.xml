@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>调试技巧总结</title>
+      <link href="2021/10/29/%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/"/>
+      <url>2021/10/29/%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/</url>
+      
+        <content type="html"><![CDATA[<h1 id="监视数组"><span class="post-title-index">1 </span><a href="#监视数组" class="headerlink" title="监视数组"></a>监视数组</h1><p><code>*( type (*)[ length ]) 数组名</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 专业 </category>
+          
+          <category> 其他 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> debug </tag>
+            
+            <tag> VScode </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>修改HEXO博客Next主题的文章显示样式</title>
       <link href="2021/09/17/%E4%BF%AE%E6%94%B9HEXO%E5%8D%9A%E5%AE%A2Next%E4%B8%BB%E9%A2%98%E7%9A%84%E6%96%87%E7%AB%A0%E6%98%BE%E7%A4%BA%E6%A0%B7%E5%BC%8F/"/>
       <url>2021/09/17/%E4%BF%AE%E6%94%B9HEXO%E5%8D%9A%E5%AE%A2Next%E4%B8%BB%E9%A2%98%E7%9A%84%E6%96%87%E7%AB%A0%E6%98%BE%E7%A4%BA%E6%A0%B7%E5%BC%8F/</url>
