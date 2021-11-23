@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/shrimp_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/shrimp_16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"thatmee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="程序设计实践小作业 3 ——性能题目及要求题目wordst_bad.cpp用于统计一文本文件里的每个单词的数量以及出现在文本文件中的行号，最后按照出现次数从大到小排列显示出来，如果出现的行号比较多，那么只显示前20次出现的行号。  要求 测试当前给出的wordst_bad.cpp，给出这些数据：    测试用的文本的单词数量 文本所含的不同单词的数量（根据运行结果得出） 排名前三的单词及其数量 执">
+<meta property="og:type" content="article">
+<meta property="og:title" content="程序设计实践小作业 3 —— 性能">
+<meta property="og:url" content="http://thatmee.github.io/2021/11/18/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E8%B7%B5%E5%B0%8F%E4%BD%9C%E4%B8%9A%203%20%E2%80%94%E2%80%94%E6%80%A7%E8%83%BD/index.html">
+<meta property="og:site_name" content="thatmee&#39;s blog">
+<meta property="og:description" content="程序设计实践小作业 3 ——性能题目及要求题目wordst_bad.cpp用于统计一文本文件里的每个单词的数量以及出现在文本文件中的行号，最后按照出现次数从大到小排列显示出来，如果出现的行号比较多，那么只显示前20次出现的行号。  要求 测试当前给出的wordst_bad.cpp，给出这些数据：    测试用的文本的单词数量 文本所含的不同单词的数量（根据运行结果得出） 排名前三的单词及其数量 执">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/11/15/1pdksAlLOhUS87x.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/15/PgG4AJxhTVmLpiz.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/15/MaKrdf289PytTCb.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/15/L79pRgobhBi5mHw.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/15/E7uA6z8tHIknpgZ.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/15/3lZewJkOpKjy7oG.png">
+<meta property="article:published_time" content="2021-11-17T17:47:00.000Z">
+<meta property="article:modified_time" content="2021-11-23T00:51:44.878Z">
+<meta property="article:author" content="thatmee">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="性能分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/11/15/1pdksAlLOhUS87x.png">
+
+
+<link rel="canonical" href="http://thatmee.github.io/2021/11/18/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E8%B7%B5%E5%B0%8F%E4%BD%9C%E4%B8%9A%203%20%E2%80%94%E2%80%94%E6%80%A7%E8%83%BD/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>程序设计实践小作业 3 —— 性能 | thatmee's blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="thatmee's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">thatmee's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry, stay foolish.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">16</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">22</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E8%B7%B5%E5%B0%8F%E4%BD%9C%E4%B8%9A-3-%E2%80%94%E2%80%94%E6%80%A7%E8%83%BD"><span class="nav-text">1 程序设计实践小作业 3 ——性能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E5%8F%8A%E8%A6%81%E6%B1%82"><span class="nav-text">1.1 题目及要求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-text">1.1.1 题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%81%E6%B1%82"><span class="nav-text">1.1.2 要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%8F%8A%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="nav-text">1.2 测试及结果分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-text">1.3 性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-gprof-%E5%91%BD%E4%BB%A4%E7%A1%AE%E5%AE%9A%E7%93%B6%E9%A2%88"><span class="nav-text">1.3.1 使用 gprof 命令确定瓶颈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-text">1.3.2 优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">1.3.2.1 优化数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96-statisWord-%E5%87%BD%E6%95%B0%E4%B8%AD%E5%AF%B9-find-%E5%92%8C-%E6%93%8D%E4%BD%9C%E7%AC%A6%E7%9A%84%E8%B0%83%E7%94%A8"><span class="nav-text">1.3.2.2 优化 statisWord 函数中对 find 和 [] 操作符的调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%BB%93%E6%9E%9C"><span class="nav-text">1.3.3 优化结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%80%A7%E8%83%BD%E6%8F%90%E9%AB%98%E7%9A%84%E6%AF%94%E4%BE%8B"><span class="nav-text">1.3.4 4. 性能提高的比例</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="thatmee"
+      src="/images/1.png">
+  <p class="site-author-name" itemprop="name">thatmee</p>
+  <div class="site-description" itemprop="description">虾滑的魔法世界</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/thatmee" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;thatmee" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:nanyf@bupt.edu.cn" title="E-Mail → mailto:nanyf@bupt.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/images/wechat_channel.jpg" title="WeChat → &#x2F;images&#x2F;wechat_channel.jpg"><i class="fab fa-weixin fa-fw"></i>WeChat</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://thatmee.github.io/2021/11/18/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E8%B7%B5%E5%B0%8F%E4%BD%9C%E4%B8%9A%203%20%E2%80%94%E2%80%94%E6%80%A7%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.png">
+      <meta itemprop="name" content="thatmee">
+      <meta itemprop="description" content="虾滑的魔法世界">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="thatmee's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          程序设计实践小作业 3 —— 性能
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-18 01:47:00" itemprop="dateCreated datePublished" datetime="2021-11-18T01:47:00+08:00">2021-11-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-11-23 08:51:44" itemprop="dateModified" datetime="2021-11-23T08:51:44+08:00">2021-11-23</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/" itemprop="url" rel="index"><span itemprop="name">专业</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">专业课程</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E8%B7%B5/" itemprop="url" rel="index"><span itemprop="name">程序设计实践</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="程序设计实践小作业-3-——性能"><span class="post-title-index">1 </span><a href="#程序设计实践小作业-3-——性能" class="headerlink" title="程序设计实践小作业 3 ——性能"></a>程序设计实践小作业 3 ——性能</h1><h2 id="题目及要求"><span class="post-title-index">1.1 </span><a href="#题目及要求" class="headerlink" title="题目及要求"></a>题目及要求</h2><h3 id="题目"><span class="post-title-index">1.1.1 </span><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>wordst_bad.cpp用于统计一文本文件里的每个单词的数量以及出现在文本文件中的行号，最后按照出现次数从大到小排列显示出来，如果出现的行号比较多，那么只显示前20次出现的行号。 </p>
+<h3 id="要求"><span class="post-title-index">1.1.2 </span><a href="#要求" class="headerlink" title="要求"></a>要求</h3><ul>
+<li>测试当前给出的wordst_bad.cpp，给出这些数据：   <ul>
+<li>测试用的文本的单词数量</li>
+<li>文本所含的不同单词的数量（根据运行结果得出）</li>
+<li>排名前三的单词及其数量</li>
+<li>执行所用时间（time命令的显示结果）</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+<ul>
+<li>尝试找出程序中的性能问题，并加以改进，给出：<ul>
+<li>改进之后的源程序wordst_good.cpp</li>
+<li>修改的依据</li>
+<li>与wordst_bad相同测试数据下的执行时间比较（time命令的显示结果）</li>
+<li>计算性能提高的比例</li>
+</ul>
+</li>
+</ul>
+<h2 id="测试及结果分析"><span class="post-title-index">1.2 </span><a href="#测试及结果分析" class="headerlink" title="测试及结果分析"></a>测试及结果分析</h2><ul>
+<li><p><strong>测试用例</strong>：<em>请见附件 <code>test.txt</code></em></p>
+</li>
+<li><p><strong>测试用的文本的单词数量</strong>：58676（通过输出结果以及 Excel 软件得出）</p>
+</li>
+<li><p><strong>文本所含的不同单词的数量</strong>：<em>请见附件 <code>result.txt</code></em> </p>
+</li>
+<li><p><strong>排名前三的单词及其数量</strong>：</p>
+  <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">WORD</span>                 COUNT</span><br><span class="line"><span class="attribute">the</span>                  <span class="number">2704</span> </span><br><span class="line"><span class="attribute">and</span>                  <span class="number">2150</span> </span><br><span class="line"><span class="attribute">to</span>                   <span class="number">1486</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>执行所用时间</strong>：</p>
+<p>  <img src="https://i.loli.net/2021/11/15/1pdksAlLOhUS87x.png" alt="image-20211115091455464"></p>
+</li>
+</ul>
+<h2 id="性能优化"><span class="post-title-index">1.3 </span><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><h3 id="使用-gprof-命令确定瓶颈"><span class="post-title-index">1.3.1 </span><a href="#使用-gprof-命令确定瓶颈" class="headerlink" title="使用 gprof 命令确定瓶颈"></a>使用 gprof 命令确定瓶颈</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">g++ -pg -o wordst_bad wordst_bad.cpp</span></span><br><span class="line"><span class="meta">$</span><span class="bash">time ./wordst_bad test.txt &gt; result.txt</span></span><br><span class="line"><span class="meta">$</span><span class="bash">gprof wordst_bad gmon.out &gt; gprofResult.txt</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>如下图，可知在 main 函数中，主要花费时间的函数是 <code>statisWord</code></p>
+<p>  <img src="https://i.loli.net/2021/11/15/PgG4AJxhTVmLpiz.png" alt="image-20211115095327831"></p>
+</li>
+<li><p>于是观察 <code>statisWord</code> 的调用关系，如下图所示，可以发现在 <code>statisWord</code> 中，主要花费时间的是 <code>find</code> 函数和 <code>[]</code> 操作符</p>
+<p>  <img src="https://i.loli.net/2021/11/15/MaKrdf289PytTCb.png" alt="image-20211115095609592"></p>
+</li>
+</ul>
+<h3 id="优化"><span class="post-title-index">1.3.2 </span><a href="#优化" class="headerlink" title="优化"></a>优化</h3><h4 id="优化数据结构"><span class="post-title-index">1.3.2.1 </span><a href="#优化数据结构" class="headerlink" title="优化数据结构"></a>优化数据结构</h4><ul>
+<li><p>经过查询资料，了解到 hash_map 是比 map 更为高效的数据结构，在 C++11 中，规定了使用 <code>unordered_map</code> 来代替 hash_map，因此我将 map 数据结构更换为 <code>unordered_map</code>:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> std::unordered_map&lt;std::string, WordInfo*&gt; WordsStatis;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>注意这时应使用 C++11 进行编译，添加 <code>-std=c++11</code> 编译选项：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">g++ -std=c++11 -pg -o wordst_good wordst_good.cpp</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="优化-statisWord-函数中对-find-和-操作符的调用"><span class="post-title-index">1.3.2.2 </span><a href="#优化-statisWord-函数中对-find-和-操作符的调用" class="headerlink" title="优化 statisWord 函数中对 find 和 [] 操作符的调用"></a>优化 statisWord 函数中对 find 和 [] 操作符的调用</h4><ul>
+<li><p>根据之前确定的瓶颈，我尝试修改 <code>find</code> 和 <code>[]</code> 的调用次数，尽量保存一些变量，从而减少遍历 <code>map</code> 的次数。如下所示，我将第一次调用 <code>find</code> 的结果保存起来，之后直接在这个迭代器的基础上进行增删改，取消了对 <code>[]</code> 的两次调用，提升了效率：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">statisWord</span><span class="params">(WordsStatis&amp; wordsStatis, std::string&amp; word, <span class="keyword">int</span> lineNo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   WordsStatis::iterator a = wordsStatis.<span class="built_in">find</span>(word);</span><br><span class="line">   <span class="keyword">if</span>(a == wordsStatis.<span class="built_in">end</span>())</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="comment">// 如果当前统计表中没找到，则新增一项</span></span><br><span class="line">      WordInfo* wordInfo = <span class="keyword">new</span> WordInfo;</span><br><span class="line">      wordInfo-&gt;lines.<span class="built_in">push_back</span>(lineNo);</span><br><span class="line">      wordsStatis.<span class="built_in">insert</span>(a, <span class="built_in">WordPair</span>(word, wordInfo));</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">   &#123;</span><br><span class="line">      <span class="comment">// 如果找到了，则增加一个新的行号</span></span><br><span class="line">      a-&gt;second-&gt;lines.<span class="built_in">push_back</span>(lineNo);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="优化结果"><span class="post-title-index">1.3.3 </span><a href="#优化结果" class="headerlink" title="优化结果"></a>优化结果</h3><ul>
+<li><p>原执行时间</p>
+<p>  <img src="https://i.loli.net/2021/11/15/L79pRgobhBi5mHw.png" alt="image-20211115091455464"></p>
+</li>
+<li><p>优化数据结构后执行时间</p>
+<p>  <img src="https://i.loli.net/2021/11/15/E7uA6z8tHIknpgZ.png" alt="image-20211115104946052"></p>
+</li>
+<li><p>优化 find 和 [] 调用后的执行时间</p>
+<p>  <img src="https://i.loli.net/2021/11/15/3lZewJkOpKjy7oG.png" alt="image-20211115110904986"></p>
+</li>
+</ul>
+<h3 id="4-性能提高的比例"><span class="post-title-index">1.3.4 </span><a href="#4-性能提高的比例" class="headerlink" title="4. 性能提高的比例"></a>4. 性能提高的比例</h3><script type="math/tex; mode=display">
+0.075\ ÷ \ 0.165\ ≈ \ 45\%</script>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C++</a>
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/" rel="tag"><i class="fa fa-tag"></i> 性能分析</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/11/14/%E8%AE%A1%E7%BD%91%E5%AE%9E%E9%AA%8C3/" rel="prev" title="RIP 和 OSPF 协议配置实验">
+                  <i class="fa fa-chevron-left"></i> RIP 和 OSPF 协议配置实验
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/21/%E8%AF%AD%E6%B3%95%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="next" title="实验 2 —— 语法程序的设计与实现">
+                  实验 2 —— 语法程序的设计与实现 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">thatmee</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Symbols count total: </span>
+    <span title="Symbols count total">47k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">43 mins.</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/shrimp_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/shrimp_16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"thatmee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="RIP 和 OSPF 路由协议的配置及协议流程分析——实验报告环境（详细说明运行的操作系统，网络平台，网络拓扑图） 操作系统：Windows 10  网络平台：Dynamips 仿真软件  网络拓扑图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RIP 和 OSPF 协议配置实验">
+<meta property="og:url" content="http://thatmee.github.io/2021/11/14/%E8%AE%A1%E7%BD%91%E5%AE%9E%E9%AA%8C3/index.html">
+<meta property="og:site_name" content="thatmee&#39;s blog">
+<meta property="og:description" content="RIP 和 OSPF 路由协议的配置及协议流程分析——实验报告环境（详细说明运行的操作系统，网络平台，网络拓扑图） 操作系统：Windows 10  网络平台：Dynamips 仿真软件  网络拓扑图">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/8rFvNcBmIEW6o2Z.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/r9JvntZOYmWN1ba.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/59cyZF17JSidTum.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/zNjWuVSUhHaYBJp.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/nbxJUMlzZtaCB5k.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/gcbzlkRP8U5uhIL.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/AfNLsOWqQoVe6tg.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/EOfu5d2D6NSZLQJ.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/YHd4cR6PghC5kNE.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/VOtw3aJvbPTB4p7.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/c1bVv8oLleIhWR3.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/Rufmpa5VIyP26vN.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/TJRxteUsMuQvZrl.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/3Dt8MGFqELegNdz.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/mYZq2GocOu9WCNv.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/dSP1uc89x42ZIKT.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/I8p6Vk2tc3Q59wN.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/tFLoBAv6rWe37Zf.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/ZaMwd1J6t3uNj7D.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/P5BLmMCNtxbHwoa.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/nhvw29lAVQfPcGF.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/7oXTueJgv2WxIl1.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/htNxfzZHcmiVso2.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/pvIbTcJozX8BOhu.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/YcoHMBNtkA8FOIU.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/WQF4MgLUNcDjopO.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/BK9eM4NnOEw8Hz3.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/K4AyUNFVm6zRb3k.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/DU7WBsrxiC6b2e5.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/rLWnw1CxtI4ydpi.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/z6Qfmnlek2oE1St.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/J1SZ98wvQ2VAnDz.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/P7LZwTmqzlpQMN5.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/648AZEFPQYJKNTt.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/WQdhA82ofsKOpLi.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/9bvjdWSoH4NnMEs.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/PqzKkFrH3I4YBdN.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/bSYFO189JigMcEV.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/c1bVv8oLleIhWR3.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/MV2lyr15GwSEWTF.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/Xel1FdIGt27cf3i.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/agobQmnJDq9zHPp.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/14/wAKTZLoChqEsBSy.png">
+<meta property="article:published_time" content="2021-11-13T17:47:00.000Z">
+<meta property="article:modified_time" content="2021-11-23T01:10:14.561Z">
+<meta property="article:author" content="thatmee">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="Dynamips">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/11/23/8rFvNcBmIEW6o2Z.png">
+
+
+<link rel="canonical" href="http://thatmee.github.io/2021/11/14/%E8%AE%A1%E7%BD%91%E5%AE%9E%E9%AA%8C3/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>RIP 和 OSPF 协议配置实验 | thatmee's blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="thatmee's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">thatmee's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry, stay foolish.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">16</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">22</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RIP-%E5%92%8C-OSPF-%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%8D%8F%E8%AE%AE%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90%E2%80%94%E2%80%94%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="nav-text">1 RIP 和 OSPF 路由协议的配置及协议流程分析——实验报告</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%EF%BC%88%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E8%BF%90%E8%A1%8C%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%8C%E7%BD%91%E7%BB%9C%E5%B9%B3%E5%8F%B0%EF%BC%8C%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%9B%BE%EF%BC%89"><span class="nav-text">1.1 环境（详细说明运行的操作系统，网络平台，网络拓扑图）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="nav-text">1.2 实验目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%E5%8F%8A%E6%AD%A5%E9%AA%A4"><span class="nav-text">1.3 实验内容及步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4%E5%90%AB%E4%B9%89%E5%8F%8A%E6%AD%A5%E9%AA%A4"><span class="nav-text">1.3.1 配置命令含义及步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RIP-%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="nav-text">1.3.1.1 RIP 配置命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RIP-%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="nav-text">1.3.1.2 RIP 配置步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OSPF-%E9%85%8D%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="nav-text">1.3.1.3 OSPF 配置命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OSPF-%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="nav-text">1.3.1.4 OSPF 配置步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90-RIP-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="nav-text">1.3.2 分析 RIP 协议的工作过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E4%BA%A4%E4%BA%92%E8%BF%87%E7%A8%8B%EF%BC%88%E4%BB%A5-R1-%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="nav-text">1.3.2.1 信息交互过程（以 R1 为例）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86"><span class="nav-text">1.3.2.2 链路故障处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E5%88%86%E5%89%B2%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B8%8E%E5%88%86%E6%9E%90"><span class="nav-text">1.3.2.3 水平分割功能测试与分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90-OSPF-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="nav-text">1.3.3 分析 OSPF 协议的工作过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8C%E6%AD%A5%E4%BF%A1%E6%81%AF%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%92%8C%E5%90%8C%E6%AD%A5%E5%AF%B9%E8%B1%A1"><span class="nav-text">1.3.3.1 数据库同步信息的格式和同步对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E6%94%B9%E5%8F%98%E4%BF%A1%E6%81%AF"><span class="nav-text">1.3.3.2 链路改变信息</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-text">1.4 实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RIP"><span class="nav-text">1.4.1 RIP</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%80%E6%9C%89%E8%AE%BE%E5%A4%87%E8%83%BD%E5%A4%9F%E4%BA%92%E7%9B%B8-ping-%E9%80%9A"><span class="nav-text">1.4.1.1 所有设备能够互相 ping 通</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%B8%8B%E5%9B%BE%E6%89%80%E7%A4%BA%EF%BC%8C%E8%B7%AF%E7%94%B1%E8%A1%A8%E6%AD%A3%E7%A1%AE%EF%BC%9A"><span class="nav-text">1.4.1.2 如下图所示，路由表正确：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF"><span class="nav-text">1.4.2 OSPF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%80%E6%9C%89%E8%AE%BE%E5%A4%87%E8%83%BD%E5%A4%9F%E4%BA%92%E7%9B%B8-ping-%E9%80%9A-1"><span class="nav-text">1.4.2.1 所有设备能够互相 ping 通</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E8%A1%A8%E6%AD%A3%E7%A1%AE"><span class="nav-text">1.4.2.2 路由表正确</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%82%BB%E5%B1%85%E4%BF%A1%E6%81%AF%E6%AD%A3%E7%A1%AE"><span class="nav-text">1.4.2.3 邻居信息正确</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E5%BF%83%E5%BE%97"><span class="nav-text">1.5 实验中的问题及心得</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%981%EF%BC%9A%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E9%85%8D%E7%BD%AE"><span class="nav-text">1.5.1 问题1：导入导出配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%982%EF%BC%9ARIP-%E5%AE%9E%E9%AA%8C%E4%B8%AD%E7%9B%B4%E8%BF%9E%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.5.2 问题2：RIP 实验中直连路由信息丢失的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%983%EF%BC%9ARIP-%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF%E4%B8%AD%E7%9A%84-via-0-0-0-0"><span class="nav-text">1.5.3 问题3：RIP 路由信息中的 via 0.0.0.0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%80%9D%E8%80%83"><span class="nav-text">1.6 实验思考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0"><span class="nav-text">2 相关知识复习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%8D%8F%E8%AE%AE"><span class="nav-text">2.1 路由协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%B2%BB%E7%B3%BB%E7%BB%9F"><span class="nav-text">2.2 自治系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIP%EF%BC%88Router-Information-Protocol%EF%BC%89"><span class="nav-text">2.3 RIP（Router Information Protocol）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">2.3.1 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2%E8%BF%87%E7%A8%8B"><span class="nav-text">2.3.2 路由交换过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%8E%AF%E8%B7%AF%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-text">2.3.3 路由环路问题及解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-text">2.3.3.1 问题描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-text">2.3.3.2 解决方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OSPF%EF%BC%88Open-Shortest-Path-First%EF%BC%89%E5%8D%8F%E8%AE%AE"><span class="nav-text">2.4 OSPF（Open Shortest Path First）协议</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="thatmee"
+      src="/images/1.png">
+  <p class="site-author-name" itemprop="name">thatmee</p>
+  <div class="site-description" itemprop="description">虾滑的魔法世界</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/thatmee" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;thatmee" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:nanyf@bupt.edu.cn" title="E-Mail → mailto:nanyf@bupt.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/images/wechat_channel.jpg" title="WeChat → &#x2F;images&#x2F;wechat_channel.jpg"><i class="fab fa-weixin fa-fw"></i>WeChat</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://thatmee.github.io/2021/11/14/%E8%AE%A1%E7%BD%91%E5%AE%9E%E9%AA%8C3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.png">
+      <meta itemprop="name" content="thatmee">
+      <meta itemprop="description" content="虾滑的魔法世界">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="thatmee's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RIP 和 OSPF 协议配置实验
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-11-14 01:47:00" itemprop="dateCreated datePublished" datetime="2021-11-14T01:47:00+08:00">2021-11-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-11-23 09:10:14" itemprop="dateModified" datetime="2021-11-23T09:10:14+08:00">2021-11-23</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/" itemprop="url" rel="index"><span itemprop="name">专业</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">专业课程</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5/" itemprop="url" rel="index"><span itemprop="name">计算机网络技术实践</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>7.1k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="RIP-和-OSPF-路由协议的配置及协议流程分析——实验报告"><span class="post-title-index">1 </span><a href="#RIP-和-OSPF-路由协议的配置及协议流程分析——实验报告" class="headerlink" title="RIP 和 OSPF 路由协议的配置及协议流程分析——实验报告"></a>RIP 和 OSPF 路由协议的配置及协议流程分析——实验报告</h1><h2 id="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"><span class="post-title-index">1.1 </span><a href="#环境（详细说明运行的操作系统，网络平台，网络拓扑图）" class="headerlink" title="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"></a>环境（详细说明运行的操作系统，网络平台，网络拓扑图）</h2><ul>
+<li><p>操作系统：Windows 10</p>
+</li>
+<li><p>网络平台：Dynamips 仿真软件</p>
+</li>
+<li><p>网络拓扑图</p>
+<p>  <img src="https://i.loli.net/2021/11/23/8rFvNcBmIEW6o2Z.png" alt="image-20211112202456632"></p>
+  <span id="more"></span>
+</li>
+</ul>
+<h2 id="实验目的"><span class="post-title-index">1.2 </span><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><ul>
+<li>在上一次实验的基础上实现RIP和OSPF路由协议</li>
+<li>自己设计网络物理拓扑和逻辑网段，并在其上实现RIP和OSPF协议（不能少于4台路由器，要求IP地址第二位是学号后三位%255）</li>
+<li>通过debug信息详细描述RIP和OSPF协议的工作过程，包括初始信息交互、路由计算、链路故障处理等部分。（要修改部分链路，观察工作过程）</li>
+<li><p>RIP协议中观察没有配置水平分割和配置水平分割后协议的工作流程，和路由消息传递方式； （要修改部分链路，观察区别，默认有水平分割）</p>
+</li>
+<li><p>OSPF中数据库同步信息的格式和同步对象？链路改变信息如何发送，具体格式（要修改部分链路，观察消息传递过程）</p>
+</li>
+</ul>
+<h2 id="实验内容及步骤"><span class="post-title-index">1.3 </span><a href="#实验内容及步骤" class="headerlink" title="实验内容及步骤"></a>实验内容及步骤</h2><h3 id="配置命令含义及步骤"><span class="post-title-index">1.3.1 </span><a href="#配置命令含义及步骤" class="headerlink" title="配置命令含义及步骤"></a>配置命令含义及步骤</h3><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1497889">思科命令大全</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/chentiefeng521/article/details/51746733">思科基础命令大全-CSDN博客</a></p>
+<h4 id="RIP-配置命令"><span class="post-title-index">1.3.1.1 </span><a href="#RIP-配置命令" class="headerlink" title="RIP 配置命令"></a>RIP 配置命令</h4><ul>
+<li><strong>show ip route</strong> 查看路由表</li>
+<li><strong>router rip</strong> 启动 RIP 进程 </li>
+<li><strong>network</strong> 通告网络 </li>
+<li><strong>version</strong> 定义 RIP 的版本</li>
+<li><strong>neighbor</strong> 配置单播更新的目标<ul>
+<li><strong>单播更新</strong>：指 RIP 使用单播发送 RIP 报文。默认情况下，RIP 每隔 30s 以<code>广播或组播</code>方式交换整个路由表的信息，这样会耗费大量网络带宽，尤其是在广域网中，可能出现严重的性能问题。我们可以使用单播更新的方式来交换路由信息，以此来改善性能问题。当使用 slient-interface 命令配置抑制接口后，再指定单播更新的目的地址后，单播更新有效；如果在接口下使用 undo rip output 命令来配置抑制接口，就是再指定单播更新的目的地址也是无法正常的发送更新的路由条目的。</li>
+</ul>
+</li>
+<li><strong>debug ip rip</strong> 动态查看 RIP 的更新过程 </li>
+<li><strong>no ip split-horizon</strong> 关闭水平分割</li>
+</ul>
+<h4 id="RIP-配置步骤"><span class="post-title-index">1.3.1.2 </span><a href="#RIP-配置步骤" class="headerlink" title="RIP 配置步骤"></a>RIP 配置步骤</h4><ul>
+<li>配置 R1</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Router<span class="selector-id">#configure</span> terminal</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#router</span> rip</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#version</span> <span class="number">2</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">1.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">2.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">4.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#neighbor</span> <span class="number">1.193</span>.<span class="number">1.2</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#neighbor</span> <span class="number">4.193</span>.<span class="number">1.2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置 R2</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Router<span class="selector-id">#configure</span> terminal</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#router</span> rip</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#version</span> <span class="number">2</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">1.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">3.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">5.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#neighbor</span> <span class="number">1.193</span>.<span class="number">1.1</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#neighbor</span> <span class="number">5.193</span>.<span class="number">1.2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置 R3</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Router<span class="selector-id">#configure</span> terminal</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#router</span> rip</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#version</span> <span class="number">2</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">4.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">5.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">6.0</span>.<span class="number">0.0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#neighbor</span> <span class="number">4.193</span>.<span class="number">1.1</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#neighbor</span> <span class="number">5.193</span>.<span class="number">1.1</span></span><br></pre></td></tr></table></figure>
+<h4 id="OSPF-配置命令"><span class="post-title-index">1.3.1.3 </span><a href="#OSPF-配置命令" class="headerlink" title="OSPF 配置命令"></a>OSPF 配置命令</h4><ul>
+<li><strong>router ospf 10</strong> 启动 OSPF 进程，10 为进程号（只具有本地意义）</li>
+<li><strong>network …  area …</strong> 宣告网络和 OSPF 区域号，网络的宣告使用<strong>反掩码</strong>形式，同一个区域中的路由器区域号要<strong>保持一致</strong></li>
+<li>Router(config-if)#<strong>ip ospf hello-interval 5</strong> 修改默认的 Hello 报文发送间隔为 5s</li>
+<li>Router(config-if)#<strong>ip ospf dead-interval 20 </strong> 修改默认的死亡间隔为 20s （默认为 Hello 间隔的 4 倍）</li>
+<li><strong>debug ip ospf events</strong> 显示OSPF 发生的事件</li>
+<li><strong>debug ip ospf packet</strong> 显示路由器收到的所有的 OSPF 数据包</li>
+<li><strong>debug ip ospf flood</strong> 显示与泛洪相关的所有信息</li>
+<li><strong>show ip ospf neighbor</strong> 查看 OSPF 邻居的基本信息</li>
+</ul>
+<h4 id="OSPF-配置步骤"><span class="post-title-index">1.3.1.4 </span><a href="#OSPF-配置步骤" class="headerlink" title="OSPF 配置步骤"></a>OSPF 配置步骤</h4><ul>
+<li>配置 R1</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#router</span> ospf <span class="number">1</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">1.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">2.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">4.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#inter</span> s1/<span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf hello-interval <span class="number">5</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf dead-interval <span class="number">20</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span>#exit</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#inter</span> s1/<span class="number">1</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf hello-interval <span class="number">5</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf dead-interval <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置 R2</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#router</span> ospf <span class="number">2</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">1.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">2.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">4.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#inter</span> s1/<span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf hello-interval <span class="number">5</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf dead-interval <span class="number">20</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span>#exit</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#inter</span> s1/<span class="number">1</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf hello-interval <span class="number">5</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf dead-interval <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置 R3</li>
+</ul>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#router</span> ospf <span class="number">3</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">4.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">5.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-router)</span></span><span class="selector-id">#network</span> <span class="number">6.0</span>.<span class="number">0.0</span> <span class="number">0.255</span>.<span class="number">255.255</span> area <span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#inter</span> s1/<span class="number">0</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf hello-interval <span class="number">5</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf dead-interval <span class="number">20</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#inter</span> s1/<span class="number">1</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf hello-interval <span class="number">5</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span><span class="selector-id">#ip</span> ospf dead-interval <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<h3 id="分析-RIP-协议的工作过程"><span class="post-title-index">1.3.2 </span><a href="#分析-RIP-协议的工作过程" class="headerlink" title="分析 RIP 协议的工作过程"></a>分析 RIP 协议的工作过程</h3><h4 id="信息交互过程（以-R1-为例）"><span class="post-title-index">1.3.2.1 </span><a href="#信息交互过程（以-R1-为例）" class="headerlink" title="信息交互过程（以 R1 为例）"></a>信息交互过程（以 R1 为例）</h4><ul>
+<li><p>使用 <code>debug ip rip</code> 命令展示 RIP 报文收发过程</p>
+</li>
+<li><p>可以看到，R1 收到了来自 S1/0、4.193.1.2 的更新包和来自 s1/1、1.193.1.2 的更新包，每一个包中包含了目标 IP 地址以及对应的跳数信息。结合网络拓扑图，分析跳数信息得到：</p>
+<ul>
+<li>每个路由器到目标 IP 地址所需的跳数不包含本路由器</li>
+<li><p>由于我所设计的网络拓扑图的环形结构，使得从不同端口到达某一 IP 地址的跳数不同:</p>
+<ul>
+<li>s1/0 端口收到的是 RT3 发来的消息，因此在 s1/0 得到的消息中，到达 3.0.0.0 所需跳数为 2，路径为： RT1 —&gt; RT3 —&gt; RT2</li>
+<li>s1/1 端口收到的是 RT2 发来的消息，因此这时到达 3.0.0.0 所需跳数为 1，路径为： RT1 —&gt; RT2</li>
+</ul>
+<p><img src="https://i.loli.net/2021/11/14/r9JvntZOYmWN1ba.png" alt="image-20211114122518150"></p>
+</li>
+</ul>
+</li>
+<li><p>同时，可以看到 R1 向与自己直连的所有端口都发送了更新信息：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/59cyZF17JSidTum.png" alt="image-20211114123206955"></p>
+<p>  <img src="https://i.loli.net/2021/11/14/zNjWuVSUhHaYBJp.png" alt="image-20211114123223673"></p>
+<p>  <img src="https://i.loli.net/2021/11/14/nbxJUMlzZtaCB5k.png" alt="image-20211114123239128"></p>
+</li>
+<li><p>下面的消息说明，R1 建立了新的表项，包含目标 IP 和跳数信息：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/gcbzlkRP8U5uhIL.png" alt="image-20211114123442248"></p>
+</li>
+<li><p>观察最终稳定的路由表，已经生成了到达各个网段的路由信息。很明显，各个设备之间通信的跳数都是 1，说明 RIP 协议自动选择了跳数最小的一条路径：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/AfNLsOWqQoVe6tg.png" alt="image-20211114125411293"></p>
+</li>
+</ul>
+<h4 id="链路故障处理"><span class="post-title-index">1.3.2.2 </span><a href="#链路故障处理" class="headerlink" title="链路故障处理"></a>链路故障处理</h4><ul>
+<li><p>尝试切断网络 5.0.0.0，删除 R2 的 s1/1 端口的 IP 信息并关掉这一端口：</p>
+  <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Router<span class="selector-id">#conf</span> t</span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config)</span></span><span class="selector-id">#inter</span> s1/<span class="number">1</span></span><br><span class="line"><span class="function"><span class="title">Router</span><span class="params">(config-if)</span></span>#shutdown</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如下所示，观察 R1 的路由表的变化，可见通往网络 5.0.0.0 的分支少了一条</p>
+<p>  <img src="https://i.loli.net/2021/11/14/EOfu5d2D6NSZLQJ.png" alt="image-20211114130912113"></p>
+</li>
+<li><p>如下所示，观察 R2 的路由表，可见，由于拓扑结构的变化，R2 通往网络 6.0.0.0 所需的跳数变成了 2（只能通过蓝色箭头路径到达）：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/YHd4cR6PghC5kNE.png" alt="image-20211114131239713" style="zoom:50%;"></p>
+<p>  <img src="https://i.loli.net/2021/11/14/VOtw3aJvbPTB4p7.png" alt="image-20211114131021053"></p>
+</li>
+</ul>
+<h4 id="水平分割功能测试与分析"><span class="post-title-index">1.3.2.3 </span><a href="#水平分割功能测试与分析" class="headerlink" title="水平分割功能测试与分析"></a>水平分割功能测试与分析</h4><ul>
+<li><p>默认情况下是开始水平分割的，在某个接口中使用 <code>no ip split horizon</code> 命令可以关闭该接口的水平分割功能，这里我关闭 R2 的 s1/0 接口</p>
+</li>
+<li><p>观察 R2 收发的信息，R2 从 s1/0 端口收到了三条路由消息：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/c1bVv8oLleIhWR3.png" alt="image-20211114132401286"></p>
+</li>
+<li><p>再观察 R1 收发的信息，R1 从 s1/1 接口收到了六条路由消息，其中包含 R2 的 s1/0 端口所收到的三条。由此可以看出，R2  的 s1/0 端口将自己收到的消息重新又通过学习到这条消息的接口转发了出去。这样会产生路由环路问题（见 2.3.3）</p>
+<p>  <img src="https://i.loli.net/2021/11/14/Rufmpa5VIyP26vN.png" alt="image-20211114132527080"></p>
+</li>
+</ul>
+<h3 id="分析-OSPF-协议的工作过程"><span class="post-title-index">1.3.3 </span><a href="#分析-OSPF-协议的工作过程" class="headerlink" title="分析 OSPF 协议的工作过程"></a>分析 OSPF 协议的工作过程</h3><h4 id="数据库同步信息的格式和同步对象"><span class="post-title-index">1.3.3.1 </span><a href="#数据库同步信息的格式和同步对象" class="headerlink" title="数据库同步信息的格式和同步对象"></a>数据库同步信息的格式和同步对象</h4><ul>
+<li>使用 <code>debug ip ospf events</code> 命令，可以看到路由器接收到的 Hello 报文，以及报文发来的端口等信息</li>
+</ul>
+<p><img src="https://i.loli.net/2021/11/14/TJRxteUsMuQvZrl.png" alt="image-20211114161052447"></p>
+<p><img src="https://i.loli.net/2021/11/14/3Dt8MGFqELegNdz.png" alt="image-20211114161118759"></p>
+<ul>
+<li><p>使用 <code>debug ip ospf packet</code> 命令，显示的内容更加详细：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/mYZq2GocOu9WCNv.png" alt="image-20211114164920050"></p>
+<p>  格式说明：</p>
+<ul>
+<li>v:2    表示 OSPF v2 版本</li>
+<li>t:1     表示 Type，即类型，类型 1 是 Hello 报文</li>
+<li>l:48   长度 Length 是 48</li>
+<li>rid:5.193.1.1    发送整个报文的路由器的RID</li>
+<li>aid:0.0.0.0    表示所在区域是 0</li>
+<li>chk:F02F     表示验证和</li>
+<li>aut:0      表示验证，0 表示空验证，1 表示明文验证，2 表示MD5验证</li>
+<li>auk:       验证相关的内容，因为没有使用验证，所以没有值</li>
+<li>from Serial1/1    表示从s1/1接口接收到的OSPF分组</li>
+</ul>
+</li>
+</ul>
+<h4 id="链路改变信息"><span class="post-title-index">1.3.3.2 </span><a href="#链路改变信息" class="headerlink" title="链路改变信息"></a>链路改变信息</h4><ul>
+<li><p>关闭 R2 的 s1/1 端口</p>
+</li>
+<li><p>R1 有如下泛洪消息：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/dSP1uc89x42ZIKT.png" alt="image-20211114164029596" style="zoom:80%;"></p>
+</li>
+<li><p>R2 有如下泛洪消息：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/I8p6Vk2tc3Q59wN.png" alt="image-20211114164536886" style="zoom:80%;"></p>
+</li>
+<li><p>路由表随之发生变化：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/tFLoBAv6rWe37Zf.png" alt="image-20211114165909442"></p>
+</li>
+</ul>
+<h2 id="实验结果"><span class="post-title-index">1.4 </span><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><h3 id="RIP"><span class="post-title-index">1.4.1 </span><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h3><h4 id="所有设备能够互相-ping-通"><span class="post-title-index">1.4.1.1 </span><a href="#所有设备能够互相-ping-通" class="headerlink" title="所有设备能够互相 ping 通"></a>所有设备能够互相 ping 通</h4><ul>
+<li><p>从 R3 ping PC 2：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/ZaMwd1J6t3uNj7D.png" alt="image-20211114121336520" style="zoom:80%;"></p>
+</li>
+<li><p>网络 3 ping 网络 6：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/P5BLmMCNtxbHwoa.png" alt="image-20211114121701316" style="zoom:80%;"></p>
+</li>
+<li><p>网络 3 ping 网络 2：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/nhvw29lAVQfPcGF.png" alt="image-20211114121804124" style="zoom:80%;"></p>
+</li>
+<li><p>网络 6 ping 网络 2：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/7oXTueJgv2WxIl1.png" alt="image-20211114121939769" style="zoom:80%;"></p>
+</li>
+</ul>
+<h4 id="如下图所示，路由表正确："><span class="post-title-index">1.4.1.2 </span><a href="#如下图所示，路由表正确：" class="headerlink" title="如下图所示，路由表正确："></a>如下图所示，路由表正确：</h4><ul>
+<li><p>每个路由器都含有到 6 个网段的路由信息</p>
+</li>
+<li><p>路由信息中非直连的网段，都是根据 RIP 协议学习来的</p>
+</li>
+<li><p>R1：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/htNxfzZHcmiVso2.png" alt="image-20211114120049538" style="zoom: 80%;"></p>
+</li>
+<li><p>R2：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/pvIbTcJozX8BOhu.png" alt="image-20211114120027319" style="zoom:80%;"></p>
+</li>
+<li><p>R3：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/YcoHMBNtkA8FOIU.png" alt="image-20211114115938761" style="zoom:80%;"></p>
+</li>
+</ul>
+<h3 id="OSPF"><span class="post-title-index">1.4.2 </span><a href="#OSPF" class="headerlink" title="OSPF"></a>OSPF</h3><h4 id="所有设备能够互相-ping-通-1"><span class="post-title-index">1.4.2.1 </span><a href="#所有设备能够互相-ping-通-1" class="headerlink" title="所有设备能够互相 ping 通"></a>所有设备能够互相 ping 通</h4><ul>
+<li><p>网络 2 ping 网络 3：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/WQF4MgLUNcDjopO.png" alt="image-20211114170127285" style="zoom:80%;"></p>
+</li>
+<li><p>网络 2 ping 网络 6：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/BK9eM4NnOEw8Hz3.png" alt="image-20211114170234863" style="zoom:80%;"></p>
+</li>
+<li><p>网络 3 ping 网络 6：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/K4AyUNFVm6zRb3k.png" alt="image-20211114170306051" style="zoom:80%;"></p>
+</li>
+</ul>
+<h4 id="路由表正确"><span class="post-title-index">1.4.2.2 </span><a href="#路由表正确" class="headerlink" title="路由表正确"></a>路由表正确</h4><ul>
+<li><p>每个路由器都含有到 6 个网段的路由信息</p>
+</li>
+<li><p>路由信息中非直连的网段，都是根据 OSPF 协议学习来的</p>
+</li>
+<li><p>R1：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/DU7WBsrxiC6b2e5.png" alt="image-20211114170528060"></p>
+</li>
+<li><p>R2：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/rLWnw1CxtI4ydpi.png" alt="image-20211114170631889"></p>
+</li>
+<li><p>R3：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/z6Qfmnlek2oE1St.png" alt="image-20211114170700407"></p>
+</li>
+</ul>
+<h4 id="邻居信息正确"><span class="post-title-index">1.4.2.3 </span><a href="#邻居信息正确" class="headerlink" title="邻居信息正确"></a>邻居信息正确</h4><ul>
+<li><p>R1：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/J1SZ98wvQ2VAnDz.png" alt="image-20211114172205389" style="zoom:80%;"></p>
+</li>
+<li><p>R2：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/P7LZwTmqzlpQMN5.png" alt="image-20211114172236188" style="zoom:80%;"></p>
+</li>
+<li><p>R3：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/648AZEFPQYJKNTt.png" alt="image-20211114172309794" style="zoom:80%;"></p>
+</li>
+</ul>
+<h2 id="实验中的问题及心得"><span class="post-title-index">1.5 </span><a href="#实验中的问题及心得" class="headerlink" title="实验中的问题及心得"></a>实验中的问题及心得</h2><h3 id="问题1：导入导出配置"><span class="post-title-index">1.5.1 </span><a href="#问题1：导入导出配置" class="headerlink" title="问题1：导入导出配置"></a>问题1：导入导出配置</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zczspring/article/details/4281286">用Dynagen来保存配置文件_zczspring的专栏-CSDN博客</a></p>
+<h3 id="问题2：RIP-实验中直连路由信息丢失的问题"><span class="post-title-index">1.5.2 </span><a href="#问题2：RIP-实验中直连路由信息丢失的问题" class="headerlink" title="问题2：RIP 实验中直连路由信息丢失的问题"></a>问题2：RIP 实验中直连路由信息丢失的问题</h3><p>如下所示，在 R1 的路由表中，只有两个直连项</p>
+<p><img src="https://i.loli.net/2021/11/14/WQdhA82ofsKOpLi.png" alt="image-20211114171036698" style="zoom:80%;"></p>
+<p>同时，从 R1 ping 自己的直连端口也不通：</p>
+<p><img src="https://i.loli.net/2021/11/14/9bvjdWSoH4NnMEs.png" alt="image-20211114171314165" style="zoom:80%;"></p>
+<p>即如图中红框部分出现了问题。</p>
+<p><img src="https://i.loli.net/2021/11/23/PqzKkFrH3I4YBdN.png" alt="image-20211114171419565" style="zoom: 33%;"></p>
+<p>首先对各个配置项进行了排查，并没有问题，于是猜测可能是 .net 文件书写的问题，进行修改后解决，R1 中正确显示了所有直连路由：</p>
+<p><img src="https://i.loli.net/2021/11/14/bSYFO189JigMcEV.png" alt="image-20211114171746307" style="zoom:80%;"></p>
+<h3 id="问题3：RIP-路由信息中的-via-0-0-0-0"><span class="post-title-index">1.5.3 </span><a href="#问题3：RIP-路由信息中的-via-0-0-0-0" class="headerlink" title="问题3：RIP 路由信息中的 via 0.0.0.0"></a>问题3：RIP 路由信息中的 via 0.0.0.0</h3><p>如下所示，一开始以为这个 via 代表下一跳的地址，那为什么是 0.0.0.0 呢，查阅资料后了解到，RIP 协议发给邻居路由器的路由表的下一跳地址是对自己来说的，但是这个下一跳地址发给邻居路由器之后，其实没有任何意义。如果邻居路由器经过计算之后，选择的就是这一条路径， 那么这个路由信息中的下一跳就是本机。</p>
+<p><img src="https://i.loli.net/2021/11/14/c1bVv8oLleIhWR3.png" alt="image-20211114132401286"></p>
+<h2 id="实验思考"><span class="post-title-index">1.6 </span><a href="#实验思考" class="headerlink" title="实验思考"></a>实验思考</h2><ul>
+<li><p><strong>实验中，采用下一跳和转发接口这两种方式配置 PC1和 PC2 的静态路由有什么区别？会导致在你的拓扑结构中从 PC1 ping PC2 时的丢包数有什么变化？需要用你的拓扑中 PC1 和 PC2 的 arp 表和路由表中的内容来解释，要附截图。（ PC1 和 PC2 间隔至少两台路由器）</strong></p>
+<ul>
+<li><p>采用转发接口方式配置 PC1 的静态路由，ping 之前和 ping 之后的 ARP 表如下所示，可见 ARP 表新增了所 ping 的 IP 地址的 MAC 信息</p>
+<p><img src="https://i.loli.net/2021/11/14/MV2lyr15GwSEWTF.png" alt="image-20211114173014042"></p>
+</li>
+<li><p>采用下一跳地址的方式配置 PC2 的静态路由，ping 之前和 ping 之后的 ARP 表如下所示：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/Xel1FdIGt27cf3i.png" alt="image-20211114173722522"></p>
+</li>
+<li><p>对比丢包情况</p>
+<ul>
+<li><p>转发接口方式：</p>
+<p>  <img src="https://i.loli.net/2021/11/23/agobQmnJDq9zHPp.png" alt="image-20211114173933892" style="zoom:80%;"></p>
+</li>
+<li><p>下一跳地址方式：</p>
+<p>  <img src="https://i.loli.net/2021/11/14/wAKTZLoChqEsBSy.png" alt="image-20211114173901166" style="zoom:80%;"></p>
+</li>
+<li><p>可见，转发接口方式由于每次都要进行解析，每次都可能发生丢包，而下一跳地址方式则不会产生丢包</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><strong>对照所截获的消息，说明 OSPF 协议和 RIP 协议在邻居发现和数据库同步等部分中消息传递方式和消息内容上的差异。附截图和对消息的说明。</strong></p>
+<p>  见 1.3 中对 OSPF 和 RIP 工作过程的分析</p>
+</li>
+</ul>
+<h1 id="相关知识复习"><span class="post-title-index">2 </span><a href="#相关知识复习" class="headerlink" title="相关知识复习"></a>相关知识复习</h1><h2 id="路由协议"><span class="post-title-index">2.1 </span><a href="#路由协议" class="headerlink" title="路由协议"></a>路由协议</h2><ul>
+<li>内部网关协议（IGP）：RIP、OSPF、IS-IS等</li>
+<li>外部网关协议（EGP）：BGP</li>
+</ul>
+<h2 id="自治系统"><span class="post-title-index">2.2 </span><a href="#自治系统" class="headerlink" title="自治系统"></a>自治系统</h2><ul>
+<li>一个自治系统是指由若干个二层网络及若干台路由器组成的集合，集合中的这些网络及路由器均属于同一个管理机构<ul>
+<li>根据规模大小的不同，一个internet可能只包含一个自治系统，也可能包含多个自治系统</li>
+</ul>
+</li>
+<li>通常情况下，一个自治系统中的所有路由器需要运行<strong>同一种</strong>具体的、由该自治系统的管理机构指定的 <strong>IGP协议</strong>（有时也会运行不同的IGP协议）</li>
+<li>IGP协议在自治系统中应该达到的目的：使自治系统中的每一台路由器都能发现通往本自治系统内各个目的网络的路由</li>
+</ul>
+<h2 id="RIP（Router-Information-Protocol）"><span class="post-title-index">2.3 </span><a href="#RIP（Router-Information-Protocol）" class="headerlink" title="RIP（Router Information Protocol）"></a>RIP（Router Information Protocol）</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42248536/article/details/89319915">RIP协议-CSDN博客</a></p>
+<h3 id="基本概念"><span class="post-title-index">2.3.1 </span><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>RIP是一种基于<strong>距离矢量（DV）算法</strong>的内部网关协议（IGP）</li>
+<li>RIP协议以<strong>跳数</strong>来定义路由的开销<ul>
+<li>跳数：到达目的地所需要经过的路由器的个数</li>
+<li>协议规定，$跳数≥16$ 的路由将被看成是<strong>不可达</strong>的路由，这限制了该协议只能应用在规模较小的网络中</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>RIP路由器除了拥有IP路由表外，还要单独创建并维护一个<strong>RIP路由表</strong>，该路由表是专门来存放该路由器通过运行RIP协议而发现的路由</li>
+</ul>
+<h3 id="路由交换过程"><span class="post-title-index">2.3.2 </span><a href="#路由交换过程" class="headerlink" title="路由交换过程"></a>路由交换过程</h3><ul>
+<li><p>初态的路由表只包含该路由器自动发现的<strong>直连路由</strong></p>
+</li>
+<li><p><strong>RIP请求消息</strong>：在RIP路由器开始启动之后，立即向它的所有的 <code>邻居路由器</code> 发送RIP请求消息，以便快速获得关于整个RIP网络的路由信息；运行中的RIP路由器也可以随时的根据自身的需要向它的所有的邻居发出RIP请求消息</p>
+</li>
+<li><strong>RIP响应消息</strong>：RIP路由器在接收到RIP请求消息后，会立即发出RIP响应消息进行回应。RIP路由器总是会每隔 <code>30秒</code> 的时间向它的所有的邻居路由器周期性的发送RIP响应消息，而该消息中携带了该路由器的RIP路由表中的最新的路由信息</li>
+<li>经过一段时间的信息交换，路由表达到<strong>稳定状态</strong>，每台路由器的RIP路由表都包含了该路由器去往整个RIP网络的各个目的网络的路由信息</li>
+<li>在稳定的状态下，路由交换过程是仍然会进行的。当网络的结构发生变化后，<strong>稳定状态被打破时</strong>，随着路由交换过程的进行，经过足够长的时间之后，每台路由器的RIP路由表便又会达到新的稳定状态。</li>
+</ul>
+<h3 id="路由环路问题及解决方法"><span class="post-title-index">2.3.3 </span><a href="#路由环路问题及解决方法" class="headerlink" title="路由环路问题及解决方法"></a>路由环路问题及解决方法</h3><h4 id="问题描述"><span class="post-title-index">2.3.3.1 </span><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>当A路由器一侧的X网络发生故障，则A路由器收到故障信息，并把X网络设置为不可达，等待更新周期来通知相邻的B路由器。但是，如果相邻的B路由器的更新周期先来了，则A路由器讲从B路由器那学习了到达X网络的路由，就是错误路由，因为此时的X网络已经损坏，而A路由器却在自己的路由表内增加了一条经过B路由器到达X网络的路由。然后A路由器还会继续把该错误路由通告给B路由器，B路由器更新路由表，认为到达X网络须经过A路由，然后继续通知相邻的路由器，至此路由环路形成，<strong>A路由器认为经过B路由器可以到达X网络，而B则认为经过A路由器可以到达X网络</strong></p>
+<h4 id="解决方法"><span class="post-title-index">2.3.3.2 </span><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><ul>
+<li><strong>触发更新</strong><ul>
+<li>当RIP路由表中的某些路由项的内容发生改变时，路由器应该<strong>立即</strong>向它的所有邻居<strong>发布响应消息</strong>，并不是等待更新定时器所规定的下一个响应消息的发送时刻</li>
+<li>为了减少带宽和路由器处理资源的浪费，触发更新的响应消息中只需要包含路由消息发生改变了的路由项</li>
+</ul>
+</li>
+<li><strong>水平分割</strong><ul>
+<li>一个路由器通过 A 接口学习到路由信息 x/y，当该路由器通过 A 接口向外发送响应消息时，<strong>一定不能包含</strong> x/y 这个路由项的信息</li>
+</ul>
+</li>
+<li><strong>毒性逆转</strong><ul>
+<li>一个路由器通过 A 接口学习到路由信息 x/y，当该路由器通过 A 接口向外发送响应消息时，<strong>需要包含</strong> x/y 这个路由项的信息，但是这个路由信息的 <strong>cost 设置为 16</strong>（不可达状态）</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>毒性逆转和水平分割方法都可以避免产生路由环路，但是两者是<code>互斥的</code>。RIP路由器可以具备水平分割的功能或毒性逆转功能，但是不能同时具备两个功能。</p>
+</blockquote>
+<h2 id="OSPF（Open-Shortest-Path-First）协议"><span class="post-title-index">2.4 </span><a href="#OSPF（Open-Shortest-Path-First）协议" class="headerlink" title="OSPF（Open Shortest Path First）协议"></a>OSPF（Open Shortest Path First）协议</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/619cfa3d513a">OSPF协议详解</a> —— 讲的很清楚，不再赘述</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"><i class="fa fa-tag"></i> 网络协议</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tag"></i> 计算机网络</a>
+              <a href="/tags/Dynamips/" rel="tag"><i class="fa fa-tag"></i> Dynamips</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/29/%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/" rel="prev" title="调试技巧总结">
+                  <i class="fa fa-chevron-left"></i> 调试技巧总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/18/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E8%B7%B5%E5%B0%8F%E4%BD%9C%E4%B8%9A%203%20%E2%80%94%E2%80%94%E6%80%A7%E8%83%BD/" rel="next" title="程序设计实践小作业 3 —— 性能">
+                  程序设计实践小作业 3 —— 性能 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">thatmee</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Symbols count total: </span>
+    <span title="Symbols count total">47k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">43 mins.</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>

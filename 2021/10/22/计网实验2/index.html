@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/shrimp_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/shrimp_16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"thatmee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="计算机网络技术实践 实验报告环境 操作系统：Windows 10  网络平台：Dynamips 仿真软件  网络拓扑图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="静态路由配置实验">
+<meta property="og:url" content="http://thatmee.github.io/2021/10/22/%E8%AE%A1%E7%BD%91%E5%AE%9E%E9%AA%8C2/index.html">
+<meta property="og:site_name" content="thatmee&#39;s blog">
+<meta property="og:description" content="计算机网络技术实践 实验报告环境 操作系统：Windows 10  网络平台：Dynamips 仿真软件  网络拓扑图">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/1KtG8ofSaqwCUml.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/HgnE1cL7d4Zz6jF.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/jibTEk7C1WhMYe5.png">
+<meta property="og:image" content="https://i.loli.net/2021/11/23/ydxECTIaY1esMAo.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/ufMzs8SR3lXbD5Y.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/7yGB6CbJpXRHtuv.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/3xbHF8GteDUEYBo.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/b9XI1LjT5QzUPZq.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/KUv5acjMLmWHXfd.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/FdOV8scXPfCmypt.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/mztqsa7UG13CWhg.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/O9P26ealgb7xMTG.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/6Grx9HqABJVfe1y.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/iTCBxEeN2LpOVYc.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/UGvb1rHJjIZaXEx.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/22/dD19eKmzqiAOwCn.png">
+<meta property="article:published_time" content="2021-10-21T17:47:00.000Z">
+<meta property="article:modified_time" content="2021-11-23T01:01:18.079Z">
+<meta property="article:author" content="thatmee">
+<meta property="article:tag" content="网络协议">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="Dynamips">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/10/22/1KtG8ofSaqwCUml.png">
+
+
+<link rel="canonical" href="http://thatmee.github.io/2021/10/22/%E8%AE%A1%E7%BD%91%E5%AE%9E%E9%AA%8C2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+<title>静态路由配置实验 | thatmee's blog</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="thatmee's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">thatmee's blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry, stay foolish.</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">16</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">22</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">13</span></a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5-%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A"><span class="nav-text">1 计算机网络技术实践 实验报告</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-text">1.1 环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="nav-text">1.2 实验目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%86%85%E5%AE%B9%E5%8F%8A%E6%AD%A5%E9%AA%A4"><span class="nav-text">1.3 实验内容及步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8R1%E4%B8%8ER2%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE"><span class="nav-text">1.3.1 路由器R1与R2的连接配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E4%B8%8E%E4%B8%BB%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5%E9%85%8D%E7%BD%AE"><span class="nav-text">1.3.2 路由器与主机的连接配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"><span class="nav-text">1.3.3 静态路由配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-text">1.4 实验结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E5%BF%83%E5%BE%97"><span class="nav-text">1.5 实验中的问题及心得</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E6%80%9D%E8%80%83"><span class="nav-text">1.6 实验思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E5%A4%8D%E4%B9%A0%E6%A2%B3%E7%90%86"><span class="nav-text">1.7 相关知识复习梳理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ethernet%E3%80%81FastEthernet-%E4%B8%8E-Serial"><span class="nav-text">1.7.1 Ethernet、FastEthernet 与 Serial</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Point-to-Point-Protocol-PPP-Encapsulation"><span class="nav-text">1.7.2 Point-to-Point Protocol (PPP) Encapsulation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DCE-%E4%B8%8E-DTE"><span class="nav-text">1.7.3 DCE 与 DTE</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="thatmee"
+      src="/images/1.png">
+  <p class="site-author-name" itemprop="name">thatmee</p>
+  <div class="site-description" itemprop="description">虾滑的魔法世界</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/thatmee" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;thatmee" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:nanyf@bupt.edu.cn" title="E-Mail → mailto:nanyf@bupt.edu.cn" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/images/wechat_channel.jpg" title="WeChat → &#x2F;images&#x2F;wechat_channel.jpg"><i class="fab fa-weixin fa-fw"></i>WeChat</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://thatmee.github.io/2021/10/22/%E8%AE%A1%E7%BD%91%E5%AE%9E%E9%AA%8C2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/1.png">
+      <meta itemprop="name" content="thatmee">
+      <meta itemprop="description" content="虾滑的魔法世界">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="thatmee's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          静态路由配置实验
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-10-22 01:47:00" itemprop="dateCreated datePublished" datetime="2021-10-22T01:47:00+08:00">2021-10-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-11-23 09:01:18" itemprop="dateModified" datetime="2021-11-23T09:01:18+08:00">2021-11-23</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/" itemprop="url" rel="index"><span itemprop="name">专业</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">专业课程</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%B8%93%E4%B8%9A/%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5/" itemprop="url" rel="index"><span itemprop="name">计算机网络技术实践</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>2.3k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="计算机网络技术实践-实验报告"><span class="post-title-index">1 </span><a href="#计算机网络技术实践-实验报告" class="headerlink" title="计算机网络技术实践 实验报告"></a>计算机网络技术实践 实验报告</h1><h2 id="环境"><span class="post-title-index">1.1 </span><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li><p>操作系统：Windows 10</p>
+</li>
+<li><p>网络平台：Dynamips 仿真软件</p>
+</li>
+<li><p>网络拓扑图</p>
+<p>  <img src="https://i.loli.net/2021/10/22/1KtG8ofSaqwCUml.png" alt="image-20211022101835891"></p>
+</li>
+</ul>
+<span id="more"></span>
+<h2 id="实验目的"><span class="post-title-index">1.2 </span><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>按照网络拓扑图完成配置：</p>
+<ul>
+<li>路由器 R1 和 R2 之间的连接配置</li>
+<li>路由器与主机（由路由器模拟）之间的连接配置</li>
+<li>四台路由器上的静态路由器配置</li>
+</ul>
+<h2 id="实验内容及步骤"><span class="post-title-index">1.3 </span><a href="#实验内容及步骤" class="headerlink" title="实验内容及步骤"></a>实验内容及步骤</h2><h3 id="路由器R1与R2的连接配置"><span class="post-title-index">1.3.1 </span><a href="#路由器R1与R2的连接配置" class="headerlink" title="路由器R1与R2的连接配置"></a>路由器R1与R2的连接配置</h3><p>根据拓扑图，R1 和 R2 在实验中作为路由器使用，二者通过串行端口进行连接，配置步骤如下：</p>
+<ul>
+<li>启动 Dynamips 平台服务以及路由器实验的脚本</li>
+<li>启动 R1、R2，并设置 idlepc</li>
+<li>使用 telnet 命令进入 R1 的控制台，进行配置</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/HgnE1cL7d4Zz6jF.png" alt="image-20211022174013546"></p>
+<ul>
+<li>同上，配置 R2 的串行接口</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/jibTEk7C1WhMYe5.png" alt="image-20211022174305176"></p>
+<h3 id="路由器与主机的连接配置"><span class="post-title-index">1.3.2 </span><a href="#路由器与主机的连接配置" class="headerlink" title="路由器与主机的连接配置"></a>路由器与主机的连接配置</h3><p>根据网络拓扑图，路由器与主机之间使用 fastEthernet 进行连接，配置步骤如下：</p>
+<ul>
+<li>启动 PC1、PC2</li>
+<li>配置 R1</li>
+</ul>
+<p><img src="https://i.loli.net/2021/11/23/ydxECTIaY1esMAo.png" alt="image-20211022140438782" style="zoom:94%;"></p>
+<ul>
+<li>配置 PC1</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/ufMzs8SR3lXbD5Y.png" alt="image-20211022140508048"></p>
+<ul>
+<li>配置 R2</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/7yGB6CbJpXRHtuv.png" alt="image-20211022140552112"></p>
+<ul>
+<li>配置 PC2</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/3xbHF8GteDUEYBo.png" alt="image-20211022140626627"></p>
+<h3 id="静态路由配置"><span class="post-title-index">1.3.3 </span><a href="#静态路由配置" class="headerlink" title="静态路由配置"></a>静态路由配置</h3><ul>
+<li>PC1</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/b9XI1LjT5QzUPZq.png" alt="image-20211022141013304"></p>
+<ul>
+<li>PC2</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/KUv5acjMLmWHXfd.png" alt="image-20211022141043708"></p>
+<ul>
+<li>R1</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/FdOV8scXPfCmypt.png" alt="image-20211022141116228"></p>
+<ul>
+<li>R2</li>
+</ul>
+<p><img src="https://i.loli.net/2021/10/22/mztqsa7UG13CWhg.png" alt="image-20211022141136014"></p>
+<h2 id="实验结果"><span class="post-title-index">1.4 </span><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h2><p>经过上述配置，以及添加通往 1.0.0.0 的静态路由（见 五-2.），实现了任意一个路由器可以 ping 通任意一个 IP 地址，截图如下：</p>
+<p><img src="https://i.loli.net/2021/10/22/O9P26ealgb7xMTG.png" alt="image-20211022163356201"></p>
+<p><img src="https://i.loli.net/2021/10/22/6Grx9HqABJVfe1y.png" alt="image-20211022163256137"></p>
+<h2 id="实验中的问题及心得"><span class="post-title-index">1.5 </span><a href="#实验中的问题及心得" class="headerlink" title="实验中的问题及心得"></a>实验中的问题及心得</h2><ul>
+<li><p><strong>一定要记得配置完成后开启接口：no shutdown</strong></p>
+<p>  如果有接口没有开启，导致无法ping通，可以使用 <code>show running-config</code> 查看设备每个接口的配置情况，没有开启的接口将会显示 <code>shut down</code> 这样一行信息</p>
+</li>
+<li><p><strong>PC1 和 PC2 ping不通 1.1.1.1 以及 1.1.1.2 的问题</strong></p>
+<p>  首先使用 <code>ping</code> 命令一段一段排查连通情况如下：</p>
+<ul>
+<li><p>PC2 ping 2.1.1.2、2.1.1.1、3.1.1.1 没有问题</p>
+</li>
+<li><p>PC1 ping 3.1.1.2、3.1.1.1、2.1.1.1 没有问题</p>
+</li>
+<li><p>R1 和 R2 的 serial 端口互相也能够ping通（1.1.1.1 和 1.1.1.2）</p>
+<p>起初，我以为是接口类型的影响，询问老师后得知在这一层面接口不会影响到连接。只能是路由的问题，仔细检查后才发现，PPT中所给的静态路由配置，PC1 只包含了通往 3.0.0.0 的路由，PC2 也只包含了通往 2.0.0.0 的路由，因此对 PC1 和 PC2，1.1.1.1 以及 1.1.1.2 都是未知的 IP 地址，所以是 ping 不通的。</p>
+<p>发现了问题的根源后，解决方法就一目了然了，在 PC1 和 PC2 添加通往 1.0.0.0 的路由：</p>
+<p><img src="https://i.loli.net/2021/10/22/iTCBxEeN2LpOVYc.png" alt="image-20211022161858416"></p>
+<p>再次测试，结果如下：</p>
+<p><img src="https://i.loli.net/2021/10/22/UGvb1rHJjIZaXEx.png" alt="image-20211022162312349"></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="实验思考"><span class="post-title-index">1.6 </span><a href="#实验思考" class="headerlink" title="实验思考"></a>实验思考</h2><p>本次实验在上次实验的基础上增加了三种新的配置：路由器与路由器的连接配置、路由器与主机的连接配置、路由器的静态路由配置。其中路由器间的连接涉及 <code>clock rate</code> 和 <code>encapsulation</code> 等属性的配置（相关知识整理在 七），路由器的静态路由配置影响着整个网络拓扑结构的连通性。</p>
+<p>在本次实验中，我自己动手完成了所有配置任务，成功运行了开头所示的网络拓扑结构，使我对 Dynamips 的各种配置命令和配置方法更加熟悉。本次实验难度并不高，但在我尝试解决PC1、PC2 ping不通 1.1.1.1 这一问题时，一个接口处于 <code>shutdown</code> 状态导致我花费了一些时间进行排查，最终利用分段执行 <code>ping</code> 命令以及 <code>show running-config</code> 命令解决了问题。看来今后做实验还是要踏踏实实，不能求快而忽略细节。</p>
+<h2 id="相关知识复习梳理"><span class="post-title-index">1.7 </span><a href="#相关知识复习梳理" class="headerlink" title="相关知识复习梳理"></a>相关知识复习梳理</h2><h3 id="Ethernet、FastEthernet-与-Serial"><span class="post-title-index">1.7.1 </span><a href="#Ethernet、FastEthernet-与-Serial" class="headerlink" title="Ethernet、FastEthernet 与 Serial"></a>Ethernet、FastEthernet 与 Serial</h3><ul>
+<li>serial 是串行口，一般用于连接设备，不能连接电脑</li>
+<li>FastEthernet 是以太口,平时 pc 用的就是这种接口</li>
+<li>FastEthernet 与 Ethernet 之间最大的区别是速度上的区别。Ethernet 的传输速率是 $10\ mbit/s$，FastEthernet 则是 $100\ mbit/s$</li>
+</ul>
+<h3 id="Point-to-Point-Protocol-PPP-Encapsulation"><span class="post-title-index">1.7.2 </span><a href="#Point-to-Point-Protocol-PPP-Encapsulation" class="headerlink" title="Point-to-Point Protocol (PPP) Encapsulation"></a>Point-to-Point Protocol (PPP) Encapsulation</h3><ul>
+<li><p>PPP 是一个广域网的数据链路层协议，PPP 以及衍生出的 PPPoE、PPPoA 等协议成为目前广域网连接和带宽接入中使用最多的数据链路层协议</p>
+</li>
+<li><p>PPP协议提供了一种在点对点链路上传输多协议数据包的标准方法.它设计的目的是用简单的链路在两上接点之间传输数据,从而为各种主机网络提供一种通用的网络互联解决方案</p>
+<p>  <img src="https://i.loli.net/2021/10/22/dD19eKmzqiAOwCn.png" alt="image-20211022171004835"></p>
+</li>
+</ul>
+<h3 id="DCE-与-DTE"><span class="post-title-index">1.7.3 </span><a href="#DCE-与-DTE" class="headerlink" title="DCE 与 DTE"></a>DCE 与 DTE</h3><ul>
+<li><p>DCE（数据通信设备）：</p>
+<ul>
+<li>该设备和其与通信网络的连接构成了网络终端的用户网络接口。它提供了到网络的一条物理连接、转发业务量，并且提供了一个用于同步 DCE 设备和 DTE 设备之间数据传输的<strong>时钟信号</strong>。调制解调器和接口卡都是 DCE 设备的例子。</li>
+<li>只有在同步通信方式的线路上才会有时钟速率，同步通信时需要线路两端进行信号发送频率的同步，也就是同步的时钟，在实际工程中由协议转换器， modem 等线路控制设备来提供，而实验环境中没有专门的线路控制设备，所以由其中的一台 router 的 serial 接口来提供。DCE 一端的确定是由 router 之间的 cable 的线序来决定的，所以 back to back 的 cable 都标明 DCE 和 DTE。</li>
+<li>只有标明 DCE 一端的才需要设置 clock rate</li>
+<li>同步时钟的频率和带宽没有直接的联系，<code>115200</code> 指的是以 115200 比特率时间间隔添加发送同步位</li>
+<li>可以设置其他数值，只要是两端都能达到那个标准即可，对通信没有影响</li>
+</ul>
+</li>
+<li><p>DTE（数据终端设备）：</p>
+<p>  指的是位于用户网络接口用户端的设备，它能够作为信源、信宿或同时为二者。数据终端设备通过数据通信设备（例如，调制解调器）连接到一个数据网络上，并且通常<strong>使用数据通信设备产生的时钟信号</strong>。数据终端设备包括计算机、协议翻译器以及多路分解器等设备。</p>
+</li>
+<li><p>DTE 和 DCE 的区分是针对串行端口的，路由器通常通过串行端口连接广域网络。对于标准的串行端口，通常从外观就能判断是 DTE 还是 DCE，DTE 是针头（俗称公头），DCE 是孔头（俗称母头），这样两种接口才能接在一起。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bakari/archive/2012/08/05/2623703.html">DCE 与 DTE （转） - 猿大白 - 博客园 (cnblogs.com)</a></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/" rel="tag"><i class="fa fa-tag"></i> 网络协议</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tag"></i> 计算机网络</a>
+              <a href="/tags/Dynamips/" rel="tag"><i class="fa fa-tag"></i> Dynamips</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/15/C%E8%AF%AD%E8%A8%80%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/" rel="prev" title="实验 1 —— C 语言词法分析程序的设计与实现">
+                  <i class="fa fa-chevron-left"></i> 实验 1 —— C 语言词法分析程序的设计与实现
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/29/%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7/" rel="next" title="调试技巧总结">
+                  调试技巧总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">thatmee</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Symbols count total: </span>
+    <span title="Symbols count total">47k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">43 mins.</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  <script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'none'
+      },
+      options: {
+        renderActions: {
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              const target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-mml-chtml.js';
+    script.defer = true;
+    document.head.appendChild(script);
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.typesetClear();
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
+</body>
+</html>
