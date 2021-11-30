@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"thatmee.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.3.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="1 计算机网络技术实践实验 4——VLAN的配置1.1 环境（详细说明运行的操作系统，网络平台，网络拓扑图） 操作系统：Windows 10 网络平台：GNS3 &amp; VMWare Workstation 16 Player 网络拓扑图：每部分的链路开启状态不同，详见每部分的报告  1.2 实验目的 设计网络拓扑和逻辑网段，熟悉 VLAN 的基本配置方法，理解 VLAN 的作用 熟悉 tru">
+<meta name="description" content="BUPT 计算机网络技术实践实验 4——VLAN的配置">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VLAN 的配置实验">
 <meta property="og:url" content="http://thatmee.github.io/2021/12/01/VLAN%20%E7%9A%84%E9%85%8D%E7%BD%AE%E5%AE%9E%E9%AA%8C/index.html">
 <meta property="og:site_name" content="thatmee&#39;s blog">
-<meta property="og:description" content="1 计算机网络技术实践实验 4——VLAN的配置1.1 环境（详细说明运行的操作系统，网络平台，网络拓扑图） 操作系统：Windows 10 网络平台：GNS3 &amp; VMWare Workstation 16 Player 网络拓扑图：每部分的链路开启状态不同，详见每部分的报告  1.2 实验目的 设计网络拓扑和逻辑网段，熟悉 VLAN 的基本配置方法，理解 VLAN 的作用 熟悉 tru">
+<meta property="og:description" content="BUPT 计算机网络技术实践实验 4——VLAN的配置">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="c:/Users/27512/AppData/Roaming/Typora/typora-user-images/image-20211201005428224.png">
 <meta property="og:image" content="https://i.loli.net/2021/11/30/Sw9LaHAcMiDVUPv.png">
@@ -74,7 +74,7 @@
 <meta property="og:image" content="c:/Users/27512/AppData/Roaming/Typora/typora-user-images/image-20211130234436406.png">
 <meta property="og:image" content="c:/Users/27512/AppData/Roaming/Typora/typora-user-images/image-20211130235213134.png">
 <meta property="article:published_time" content="2021-11-30T17:24:00.000Z">
-<meta property="article:modified_time" content="2021-11-30T17:26:49.873Z">
+<meta property="article:modified_time" content="2021-11-30T17:30:22.168Z">
 <meta property="article:author" content="thatmee">
 <meta property="article:tag" content="网络协议">
 <meta property="article:tag" content="计算机网络">
@@ -315,7 +315,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-12-01 01:24:00 / Modified: 01:26:49" itemprop="dateCreated datePublished" datetime="2021-12-01T01:24:00+08:00">2021-12-01</time>
+      <time title="Created: 2021-12-01 01:24:00 / Modified: 01:30:22" itemprop="dateCreated datePublished" datetime="2021-12-01T01:24:00+08:00">2021-12-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -370,7 +370,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="计算机网络技术实践实验-4——VLAN的配置"><span class="post-title-index">1 </span><a href="#计算机网络技术实践实验-4——VLAN的配置" class="headerlink" title="计算机网络技术实践实验 4——VLAN的配置"></a>计算机网络技术实践实验 4——VLAN的配置</h1><h2 id="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"><span class="post-title-index">1.1 </span><a href="#环境（详细说明运行的操作系统，网络平台，网络拓扑图）" class="headerlink" title="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"></a>环境（详细说明运行的操作系统，网络平台，网络拓扑图）</h2><ul>
+        <p>BUPT 计算机网络技术实践实验 4——VLAN的配置<span id="more"></span></p>
+<h1 id="计算机网络技术实践实验-4——VLAN的配置"><span class="post-title-index">1 </span><a href="#计算机网络技术实践实验-4——VLAN的配置" class="headerlink" title="计算机网络技术实践实验 4——VLAN的配置"></a>计算机网络技术实践实验 4——VLAN的配置</h1><h2 id="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"><span class="post-title-index">1.1 </span><a href="#环境（详细说明运行的操作系统，网络平台，网络拓扑图）" class="headerlink" title="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"></a>环境（详细说明运行的操作系统，网络平台，网络拓扑图）</h2><ul>
 <li>操作系统：Windows 10</li>
 <li>网络平台：GNS3 &amp; VMWare Workstation 16 Player</li>
 <li>网络拓扑图：每部分的链路开启状态不同，详见每部分的报告</li>
