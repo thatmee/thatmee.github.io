@@ -1877,7 +1877,7 @@ t = 263 + 270 + ACK\_TIMER + 532 + 6 + 270 + 4 = 1345 + ACK\_TIMER (ms)</script>
     <title>VLAN 的配置实验</title>
     <url>/2021/12/01/VLAN%20%E7%9A%84%E9%85%8D%E7%BD%AE%E5%AE%9E%E9%AA%8C/</url>
     <content><![CDATA[<p>BUPT 计算机网络技术实践实验 4——VLAN的配置<span id="more"></span></p>
-<h1 id="计算机网络技术实践实验-4——VLAN的配置"><span class="post-title-index">1 </span><a href="#计算机网络技术实践实验-4——VLAN的配置" class="headerlink" title="计算机网络技术实践实验 4——VLAN的配置"></a>计算机网络技术实践实验 4——VLAN的配置</h1><h2 id="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"><span class="post-title-index">1.1 </span><a href="#环境（详细说明运行的操作系统，网络平台，网络拓扑图）" class="headerlink" title="环境（详细说明运行的操作系统，网络平台，网络拓扑图）"></a>环境（详细说明运行的操作系统，网络平台，网络拓扑图）</h2><ul>
+<h1 id="计算机网络技术实践实验-4——VLAN的配置"><span class="post-title-index">1 </span><a href="#计算机网络技术实践实验-4——VLAN的配置" class="headerlink" title="计算机网络技术实践实验 4——VLAN的配置"></a>计算机网络技术实践实验 4——VLAN的配置</h1><h2 id="环境"><span class="post-title-index">1.1 </span><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
 <li>操作系统：Windows 10</li>
 <li>网络平台：GNS3 &amp; VMWare Workstation 16 Player</li>
 <li>网络拓扑图：每部分的链路开启状态不同，详见每部分的报告</li>
